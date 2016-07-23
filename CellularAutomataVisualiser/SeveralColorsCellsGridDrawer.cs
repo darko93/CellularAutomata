@@ -9,11 +9,11 @@ using CellularAutomata;
 
 namespace CellularAutomataVisualiser
 {
-    class SeveralColorCellsGridDrawer
+    class SeveralColorsCellsGridDrawer
     {
         private SolidBrush brush = new SolidBrush(Color.Transparent);
 
-        private Dictionary<ColorValues, List<Rectangle>> rectangles;
+        private Dictionary<ColorValues, List<Rectangle>> rectangles = new Dictionary<ColorValues, List<Rectangle>>();
 
         private ICellularAutomaton cellularAutomaton;
 
@@ -25,9 +25,9 @@ namespace CellularAutomataVisualiser
 
         private void SetCellularAutomaton(ICellularAutomaton cellularAutomaton)
         {
-            rectangles = new Dictionary<ColorValues, List<Rectangle>>();
-            ColorValues[] basicCellsColors = cellularAutomaton.GetCellsColors();
-            foreach (ColorValues cellColor in basicCellsColors)
+            rectangles.Clear();
+            ColorValues[] cellsColors = cellularAutomaton.GetCellsColors();
+            foreach (ColorValues cellColor in cellsColors)
                 rectangles.Add(cellColor, new List<Rectangle>());
 
             this.cellularAutomaton = cellularAutomaton;
@@ -36,7 +36,7 @@ namespace CellularAutomataVisualiser
         public int CellWidth { get; set; }
         public int CellHeight { get; set; }
 
-        public SeveralColorCellsGridDrawer(ICellularAutomaton cellularAutomaton, int cellWidth, int cellHeight)
+        public SeveralColorsCellsGridDrawer(ICellularAutomaton cellularAutomaton, int cellWidth, int cellHeight)
         {
             SetCellularAutomaton(cellularAutomaton);
             CellWidth = cellWidth;

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <FHPCollisionStatePairs>
   <FHPCollisionStatePair id="5" inState="NE_SE" outState1 ="E_REST" outState2 ="E_REST" />
-  <FHPCollisionStatePair id="9" inState="NE_SW" outState1 ="SE_NW" outState2 ="E_w" />
+  <FHPCollisionStatePair id="9" inState="NE_SW" outState1 ="SE_NW" outState2 ="E_W" />
   <FHPCollisionStatePair id="" inState="" outState1 ="" outState2 ="" />
   <FHPCollisionStatePair id="" inState="" outState1 ="" outState2 ="" />
   <FHPCollisionStatePair id="" inState="" outState1 ="" outState2 ="" />

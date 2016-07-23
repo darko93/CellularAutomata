@@ -44,7 +44,6 @@
     <Compile Include="FHPColissionStatePair.cs" />
     <Compile Include="FHPParticleState.cs" />
     <Compile Include="ForestFire.cs" />
-    <Compile Include="ForestFire2.cs" />
     <Compile Include="ForestFireCell.cs" />
     <Compile Include="ForestFireCellState.cs" />
     <Compile Include="Fraction.cs" />

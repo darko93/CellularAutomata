@@ -16,7 +16,7 @@ namespace CellularAutomataVisualiser
     {
         ICellularAutomaton cellularAutomaton = null;
         MultiColorCellsGridDrawer multicolourCellsGridDrawer = null;
-        SeveralColorCellsGridDrawer severalColorCellsGridDrawer = null;
+        SeveralColorsCellsGridDrawer severalColorCellsGridDrawer = null;
 
         private Graphics g;
 
@@ -24,7 +24,7 @@ namespace CellularAutomataVisualiser
         {
             InitializeComponent();
 
-            //cellularAutomaton = new ForestFire2(150, 100, 0);
+            //cellularAutomaton = new ForestFire(150, 100, 0);
             SandPile sandPile = new SandPile(400, 300, ColorMode.Uniform);
             sandPile.SetRandomCellsState(25, SandPileCellState.Sand);
             sandPile.NeighboringRemainAtRestProbability = new Fraction(1, 4);
@@ -34,7 +34,7 @@ namespace CellularAutomataVisualiser
             int cellHeight = 3;
 
             multicolourCellsGridDrawer = new MultiColorCellsGridDrawer(cellularAutomaton, cellWidth, cellHeight);
-            severalColorCellsGridDrawer = new SeveralColorCellsGridDrawer(cellularAutomaton, cellWidth, cellHeight);
+            severalColorCellsGridDrawer = new SeveralColorsCellsGridDrawer(cellularAutomaton, cellWidth, cellHeight);
 
             int width = severalColorCellsGridDrawer.CellWidth * cellularAutomaton.Width;
             int height = severalColorCellsGridDrawer.CellHeight * cellularAutomaton.Height;
