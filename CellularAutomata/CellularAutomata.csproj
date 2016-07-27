@@ -35,13 +35,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Content Include="FHPCollisions.xml" />
+    <EmbeddedResource Include="FHPCollisions.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorMode.cs" />
     <Compile Include="ColorValues.cs" />
     <Compile Include="ColorValuesComparer.cs" />
-    <Compile Include="FHPColissionStatePair.cs" />
+    <Compile Include="FHP.cs" />
+    <Compile Include="FHPCollision.cs" />
     <Compile Include="FHPParticleState.cs" />
     <Compile Include="ForestFire.cs" />
     <Compile Include="ForestFireCell.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="SandPile.cs" />
     <Compile Include="SandPileCell.cs" />
     <Compile Include="SandPileCellState.cs" />
+    <Compile Include="XMLManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

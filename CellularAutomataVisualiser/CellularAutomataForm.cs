@@ -24,11 +24,13 @@ namespace CellularAutomataVisualiser
         {
             InitializeComponent();
 
-            //cellularAutomaton = new ForestFire(150, 100, 0);
-            SandPile sandPile = new SandPile(400, 300, ColorMode.Uniform);
-            sandPile.SetRandomCellsState(25, SandPileCellState.Sand);
-            sandPile.NeighboringRemainAtRestProbability = new Fraction(1, 4);
-            cellularAutomaton = sandPile;
+            FHP fhp = new FHP();
+
+            cellularAutomaton = new ForestFire(150, 100, 0);
+            //SandPile sandPile = new SandPile(400, 300, ColorMode.Uniform);
+            //sandPile.SetRandomCellsState(25, SandPileCellState.Sand);
+            //sandPile.NeighboringRemainAtRestProbability = new Fraction(1, 4);
+            //cellularAutomaton = sandPile;
 
             int cellWidth = 3;
             int cellHeight = 3;

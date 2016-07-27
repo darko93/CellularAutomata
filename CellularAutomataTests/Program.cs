@@ -20,7 +20,7 @@ namespace CellularAutomataTests
         private static void ForestFirePerformance()
         {
             int steps = 10000;
-            ForestFire forestFire = new ForestFire(150, 100);
+            ForestFire forestFire = new ForestFire(150, 100, 0);
             Stopwatch sw = Stopwatch.StartNew();
             for (int i = 0; i < steps; i++)
                 forestFire.NextStep();
