@@ -42,6 +42,8 @@
     <Compile Include="ColorValues.cs" />
     <Compile Include="ColorValuesComparer.cs" />
     <Compile Include="FHP.cs" />
+    <Compile Include="FHPCell.cs" />
+    <Compile Include="FHPCellState.cs" />
     <Compile Include="FHPCollision.cs" />
     <Compile Include="FHPParticleState.cs" />
     <Compile Include="ForestFire.cs" />

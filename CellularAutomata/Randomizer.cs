@@ -14,11 +14,19 @@ namespace CellularAutomata
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
 
-        public int NextInt(int minValue, int maxValue)
+        public int Next(int minValue, int maxValue)
         {
             lock(syncLock)
             {
                 return random.Next(minValue, maxValue);
+            }
+        }
+
+        public int Next(int maxValue)
+        {
+            lock(syncLock)
+            {
+                return random.Next(maxValue);
             }
         }
 

@@ -19,7 +19,7 @@ namespace CellularAutomata
         public Fraction GrowProbability { get; set; } = new Fraction(1, 200);
         public Fraction SpontanBurnProbability { get; set; } = new Fraction(1, 200000);
         public Fraction BurnFromNeighborProbability { get; set; } = new Fraction(1, 3);
-        public int PercentageInitialTreeDensity { get; set; } = 0;
+        public int PercentageInitialTreeDensity { get; private set; } = 0;
         public int BurnStepsAmount
         {
             get { return ForestFireCell.TotalBurnStepsAmount; }
@@ -28,16 +28,16 @@ namespace CellularAutomata
 
         private const int borderThickness = 1;
 
-        public ForestFire(int width, int height, int percentageInitialTreeDensity)
+        public ForestFire(int width, int height)
         {
-            Reinitialize(width, height, percentageInitialTreeDensity);
+            Reinitialize(width, height);
             BurnStepsAmount = 5;
         }
 
-        public void Reinitialize(int width, int height, int percentageInitialTreeDensity)
+        public void Reinitialize(int width, int height)
         {
-            int extendedWidth = width + 2;
-            int extendedHeight = height + 2;
+            int extendedWidth = width + borderThickness * 2;
+            int extendedHeight = height + borderThickness * 2;
             cellsGrid = new ForestFireCell[extendedWidth][];
             newCellsGrid = new ForestFireCell[extendedWidth][];
             for (int x = 0; x < extendedWidth; x++)
@@ -50,18 +50,12 @@ namespace CellularAutomata
                     newCellsGrid[x][y] = new ForestFireCell(ForestFireCellState.Empty);
                 }
             }
-            if (percentageInitialTreeDensity > 0)
-                SetRandomCellsState(percentageInitialTreeDensity, ForestFireCellState.Tree);
             Width = width;
             Height = height;
-            PercentageInitialTreeDensity = percentageInitialTreeDensity;
         }
 
         public void Reinitialize() =>
-            Reinitialize(Width, Height, PercentageInitialTreeDensity);
-
-        public void Reinitialize(int width, int height) =>
-            Reinitialize(width, height, PercentageInitialTreeDensity);
+            Reinitialize(Width, Height);
 
         public ForestFireCellState GetCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State;

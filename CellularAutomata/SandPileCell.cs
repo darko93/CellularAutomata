@@ -64,9 +64,9 @@ namespace CellularAutomata
 
         public void ReinitializeDeviatedSandColor()
         {
-            int redDeviation = randomizer.NextInt(-colorRGBDeviation, colorRGBDeviation);
-            int greenDeviation = randomizer.NextInt(-colorRGBDeviation, colorRGBDeviation);
-            int blueDeviation = randomizer.NextInt(-colorRGBDeviation, colorRGBDeviation);
+            int redDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
+            int greenDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
+            int blueDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
             byte deviatedRed = GetByteBoundColorValue(sandColor.R + redDeviation);
             byte deviatedGreen = GetByteBoundColorValue(sandColor.G + greenDeviation);
             byte deviatedBlue = GetByteBoundColorValue(sandColor.B + blueDeviation);

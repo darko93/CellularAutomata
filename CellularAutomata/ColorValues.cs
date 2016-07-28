@@ -65,5 +65,6 @@ namespace CellularAutomata
         public static ColorValues Air => new ColorValues(255, 255, 255);
         public static ColorValues Sand => new ColorValues(244, 164, 96);
         public static ColorValues Wall => new ColorValues(0, 0, 0);
+        public static ColorValues Particle => new ColorValues(0, 0, 255);
     }
 }
