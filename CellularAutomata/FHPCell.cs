@@ -75,6 +75,45 @@ namespace CellularAutomata
             if (ParticleState.HasFlag(FHPParticleState.Wall))
                 return wallColor;
             return particleColor;
-        } 
+        }
+
+        public static ColorValues[] GetCellsColors() =>
+            new[]
+            {
+                emptyCellColor,
+                particleColor,
+                wallColor
+            };
+        
+        public static ColorValues GetColorValues(FHPCellState cellState)
+        {
+            switch (cellState)
+            {
+                case FHPCellState.Empty:
+                    return emptyCellColor;
+                case FHPCellState.Particle:
+                    return particleColor;
+                case FHPCellState.Wall:
+                    return wallColor;
+                default:
+                    return null;
+            }
+        }
+
+        public static void SetColorValues(FHPCellState cellState, ColorValues colorValues)
+        {
+            switch (cellState)
+            {
+                case FHPCellState.Empty:
+                    emptyCellColor = colorValues;
+                    break;
+                case FHPCellState.Particle:
+                    particleColor = colorValues;
+                    break;
+                case FHPCellState.Wall:
+                    particleColor = colorValues;
+                    break;
+            }
+        }
     }
 }

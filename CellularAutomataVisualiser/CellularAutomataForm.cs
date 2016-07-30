@@ -25,10 +25,13 @@ namespace CellularAutomataVisualiser
             InitializeComponent();
 
             FHP fhp = new FHP(300, 200);
+            fhp.SetRandomCellsState(5, FHPCellState.Particle);
+            cellularAutomaton = fhp;
             
-            ForestFire forestFire = new ForestFire(150, 100);
-            forestFire.SetRandomCellsState(50, ForestFireCellState.Tree);
-            cellularAutomaton = forestFire;
+            //ForestFire forestFire = new ForestFire(150, 100);
+            //forestFire.SetRandomCellsState(50, ForestFireCellState.Tree);
+            //cellularAutomaton = forestFire;
+
             //SandPile sandPile = new SandPile(400, 300, ColorMode.Uniform);
             //sandPile.SetRandomCellsState(25, SandPileCellState.Sand);
             //sandPile.NeighboringRemainAtRestProbability = new Fraction(1, 4);

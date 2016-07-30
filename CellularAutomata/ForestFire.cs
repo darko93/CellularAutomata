@@ -11,7 +11,7 @@ namespace CellularAutomata
         private ForestFireCell[][] cellsGrid = null;
         private ForestFireCell[][] newCellsGrid = null;
 
-        private Randomizer randomizer = Randomizer.Instance;
+        private static Randomizer randomizer = Randomizer.Instance;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -57,19 +57,25 @@ namespace CellularAutomata
         public void Reinitialize() =>
             Reinitialize(Width, Height);
 
+        public ColorValues GetColorValues(int x, int y) =>
+            cellsGrid[x + borderThickness][y + borderThickness].GetColorValues();
+
+        public ColorValues[] GetCellsColors() =>
+            ForestFireCell.GetColors();
+
         public ForestFireCellState GetCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State;
 
         public void SetCellState(int x, int y, ForestFireCellState cellState) =>
             cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
-        public ColorValues GetColorValues(int x, int y) =>
-            cellsGrid[x + borderThickness][y + borderThickness].GetColorValues();
+        public ColorValues GetColorValues(ForestFireCellState cellState) =>
+            ForestFireCell.GetColorValues(cellState);
 
         public void SetColorValues(ForestFireCellState cellState, ColorValues colorValues) =>
             ForestFireCell.SetColorValues(cellState, colorValues);
 
-        private void SetRandomCellsState(int cellsPercentage, ForestFireCellState cellState, Point leftBottomBound, Point rightTopBound)
+        public void SetRandomCellsState(int cellsPercentage, ForestFireCellState cellState, Point leftBottomBound, Point rightTopBound)
         {
             Point[] randomPoints = randomizer.GetDistinctRandomPoints(cellsPercentage, leftBottomBound, rightTopBound);
 
@@ -99,9 +105,6 @@ namespace CellularAutomata
 
             SetRandomCellsState(cellsPercentage, cellState, leftBottomBound, rightTopBound);
         }
-
-        public ColorValues[] GetCellsColors() =>
-            ForestFireCell.GetColors();
 
         private int GetOrthogonalNeighborsOfStateAmount(int cellX, int cellY, ForestFireCellState cellState)
         {

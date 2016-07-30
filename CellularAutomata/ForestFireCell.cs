@@ -15,19 +15,20 @@ namespace CellularAutomata
 
         private static ColorValues treeColor = ColorValues.Tree;
         private static ColorValues burningTreeColor = ColorValues.BurningTree;
-        private static ColorValues emptyColor = ColorValues.EmptyCell;
+        private static ColorValues emptyCellColor = ColorValues.EmptyCell;
 
         public ColorValues GetColorValues()
         {
             switch (State)
             {
+                case ForestFireCellState.Empty:
+                    return emptyCellColor;
                 case ForestFireCellState.Tree:
                     return treeColor;
                 case ForestFireCellState.BurningTree:
                     return burningTreeColor;
-                case ForestFireCellState.Empty:
-                    return emptyColor;
-                default: return null;
+                default:
+                    return null;
             }
         }
 
@@ -35,15 +36,30 @@ namespace CellularAutomata
         {
             switch (cellState)
             {
+                case ForestFireCellState.Empty:
+                    emptyCellColor = colorValues;
+                    break;
                 case ForestFireCellState.Tree:
                     treeColor = colorValues;
                     break;
                 case ForestFireCellState.BurningTree:
                     burningTreeColor = colorValues;
                     break;
+            }
+        }
+
+        public static ColorValues GetColorValues(ForestFireCellState cellState)
+        {
+            switch (cellState)
+            {
                 case ForestFireCellState.Empty:
-                    emptyColor = colorValues;
-                    break;
+                    return emptyCellColor;
+                case ForestFireCellState.Tree:
+                    return treeColor;
+                case ForestFireCellState.BurningTree:
+                    return burningTreeColor;
+                default:
+                    return null;
             }
         }
 
@@ -89,7 +105,7 @@ namespace CellularAutomata
             {
                 treeColor,
                 burningTreeColor,
-                emptyColor
+                emptyCellColor
             };
     }
 }

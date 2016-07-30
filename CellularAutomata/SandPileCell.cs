@@ -28,7 +28,8 @@ namespace CellularAutomata
                     return airColor;
                 case SandPileCellState.Wall:
                     return wallColor;
-                default: return null;
+                default:
+                    return null;
             }
         }
 
@@ -45,6 +46,21 @@ namespace CellularAutomata
                 case SandPileCellState.Wall:
                     wallColor = colorValues;
                     break;
+            }
+        }
+
+        public static ColorValues GetColorValues(SandPileCellState cellState)
+        {
+            switch (cellState)
+            {
+                case SandPileCellState.Air:
+                    return airColor;
+                case SandPileCellState.Sand:
+                    return sandColor;
+                case SandPileCellState.Wall:
+                    return wallColor;
+                default:
+                    return null;
             }
         }
 

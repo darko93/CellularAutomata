@@ -79,25 +79,9 @@ namespace CellularAutomata
         public void Reinitialize(int width, int height) =>
             Reinitialize(width, height, sandColorMode);
 
-        public SandPileCellState GetCellState(int x, int y) =>
-            cellsGrid[x + borderThickness][y + borderThickness].State;
-
-        public void SetCellState(int x, int y, SandPileCellState cellState) =>
-            cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
         public ColorValues GetColorValues(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].GetColorValues();
-
-        public void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
-        {
-            SandPileCell.SetColorValues(cellState, colorValues);
-            if (cellState == SandPileCellState.Sand && SandColorMode == ColorMode.SlightlyDifferent)
-            {
-                foreach (SandPileCell[] cells in cellsGrid)
-                    foreach (SandPileCell cell in cells)
-                        cell.ReinitializeDeviatedSandColor();
-            }
-        }
 
         public ColorValues[] GetCellsColors()
         {
@@ -110,6 +94,26 @@ namespace CellularAutomata
                     foreach (SandPileCell cell in cells)
                         colorValues.Add(cell.GetColorValues());
                 return colorValues.ToArray();
+            }
+        }
+
+        public SandPileCellState GetCellState(int x, int y) =>
+            cellsGrid[x + borderThickness][y + borderThickness].State;
+
+        public void SetCellState(int x, int y, SandPileCellState cellState) =>
+            cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
+
+        public ColorValues GetColorValues(SandPileCellState cellState) =>
+            SandPileCell.GetColorValues(cellState);
+
+        public void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
+        {
+            SandPileCell.SetColorValues(cellState, colorValues);
+            if (cellState == SandPileCellState.Sand && SandColorMode == ColorMode.SlightlyDifferent)
+            {
+                foreach (SandPileCell[] cells in cellsGrid)
+                    foreach (SandPileCell cell in cells)
+                        cell.ReinitializeDeviatedSandColor();
             }
         }
 
