@@ -8,10 +8,10 @@ namespace CellularAutomata
     {
         int Width { get; }
         int Height { get; }
-        ColorValues GetColorValues(int x, int y);
         void Reinitialize(int width, int height);
         void Reinitialize();
         void NextStep();
+        ColorValues GetColorValues(int x, int y);
         ColorValues[] GetCellsColors();
     }
 }

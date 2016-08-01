@@ -15,8 +15,6 @@ namespace CellularAutomata
 
         private const int borderThickness = 1;
 
-        private static Randomizer randomizer = Randomizer.Instance;
-
         public int Width { get; private set; }
         public int Height { get; private set; }
 
@@ -58,20 +56,22 @@ namespace CellularAutomata
 
         private FHPParticleState GetBoundaryOutState(FHPParticleState inState)
         {
-            FHPParticleState outState = FHPParticleState.None;
+            FHPParticleState outState = FHPParticleState.Wall;
 
-            if (inState.HasFlag(FHPParticleState.NE))
-                outState |= FHPParticleState.SW;
-            if (inState.HasFlag(FHPParticleState.E))
-                outState |= FHPParticleState.W;
-            if (inState.HasFlag(FHPParticleState.SE))
-                outState |= FHPParticleState.NW;
-            if (inState.HasFlag(FHPParticleState.SW))
-                outState |= FHPParticleState.NE;
-            if (inState.HasFlag(FHPParticleState.E))
-                outState |= FHPParticleState.W;
-            if (inState.HasFlag(FHPParticleState.NW))
-                outState |= FHPParticleState.SE;
+            if (inState.HasFlag(FHPParticleState.RightUp))
+                outState |= FHPParticleState.LeftDown;
+            if (inState.HasFlag(FHPParticleState.Right))
+                outState |= FHPParticleState.Left;
+            if (inState.HasFlag(FHPParticleState.RightDown))
+                outState |= FHPParticleState.LeftUp;
+            if (inState.HasFlag(FHPParticleState.LeftDown))
+                outState |= FHPParticleState.RightUp;
+            if (inState.HasFlag(FHPParticleState.Left))
+                outState |= FHPParticleState.Right;
+            if (inState.HasFlag(FHPParticleState.LeftUp))
+                outState |= FHPParticleState.RightDown;
+            if (inState.HasFlag(FHPParticleState.Rest)) // This shouldn't happen.
+                outState |= FHPParticleState.Rest;
 
             return outState;
         }
@@ -112,47 +112,16 @@ namespace CellularAutomata
             FHPCell.GetCellsColors();
 
         public FHPCellState GetCellState(int x, int y) =>
-            cellsGrid[x + borderThickness][y + borderThickness].GetState();
+            cellsGrid[x + borderThickness][y + borderThickness].State;
 
         public void SetCellState(int x, int y, FHPCellState cellState) =>
-            cellsGrid[x + borderThickness][y + borderThickness].SetState(cellState);
+            cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
         public ColorValues GetColorValues(FHPCellState cellState) =>
             FHPCell.GetColorValues(cellState);
 
         public void SetColorValues(FHPCellState cellState, ColorValues colorValues) =>
             FHPCell.SetColorValues(cellState, colorValues);
-
-        public void SetRandomCellsState(int cellsPercentage, FHPCellState cellState, Point leftBottomBound, Point rightTopBound)
-        {
-            Point[] randomPoints = randomizer.GetDistinctRandomPoints(cellsPercentage, leftBottomBound, rightTopBound);
-
-            foreach (Point point in randomPoints)
-                cellsGrid[point.X + borderThickness][point.Y + borderThickness].SetState(cellState);
-        }
-
-        public void SetRandomCellsState(int cellsPercentage, FHPCellState cellState)
-        {
-            Point leftBottomBound = new Point(0, 0);
-            Point rightTopBound = new Point(Width - 1, Height - 1);
-            SetRandomCellsState(cellsPercentage, cellState, leftBottomBound, rightTopBound);
-        }
-
-        public void SetRandomCellsState(int cellsPercentage, FHPCellState cellState, Point location, int width, int height)
-        {
-            double halfWidth = width * 0.5;
-            int leftBoundX = location.X - (int)Math.Floor(halfWidth);
-            int rightBoundX = location.X + (int)Math.Ceiling(halfWidth);
-
-            double halfHeight = height * 0.5;
-            int bottomBoundY = location.Y - (int)Math.Floor(halfHeight);
-            int topBoundY = location.Y + (int)Math.Floor(halfHeight);
-
-            Point leftBottomBound = new Point(leftBoundX, bottomBoundY);
-            Point rightTopBound = new Point(rightBoundX, topBoundY);
-
-            SetRandomCellsState(cellsPercentage, cellState, leftBottomBound, rightTopBound);
-        }
 
         private void HandleCollisions()
         {
@@ -163,9 +132,9 @@ namespace CellularAutomata
             {
                 for (int y = 0; y < extendedHeight; y++)
                 {
-                    FHPParticleState xyParticleInState = cellsGrid[x][y].ParticleState;
-                    int randomOutStateIndex = randomizer.Next(2);
-                    cellsGrid[x][y].ParticleState = outState[(int)xyParticleInState][randomOutStateIndex];
+                    FHPParticleState particleInStateXY = cellsGrid[x][y].ParticleState;
+                    int randomOutStateIndex = Randomizer.Instance.Next(2);
+                    cellsGrid[x][y].ParticleState = outState[(int)particleInStateXY][randomOutStateIndex];
                 }
             }
         }
@@ -192,24 +161,27 @@ namespace CellularAutomata
                         diagonalLeftIndex = x;
                     }
 
-                    FHPParticleState xyParticleInState = cellsGrid[x][y].ParticleState;
-
-                    if (xyParticleInState.HasFlag(FHPParticleState.Wall))
+                    FHPCell cellXY = cellsGrid[x][y];
+                    FHPParticleState particleInStateXY = cellXY.ParticleState;
+                    
+                    if (particleInStateXY.HasFlag(FHPParticleState.Wall))
                         newCellsGrid[x][y].ParticleState |= FHPParticleState.Wall;
-                    if (xyParticleInState.HasFlag(FHPParticleState.Rest))
+                    if (particleInStateXY.HasFlag(FHPParticleState.Rest))
                         newCellsGrid[x][y].ParticleState |= FHPParticleState.Rest;
-                    if (xyParticleInState.HasFlag(FHPParticleState.NE))
-                        newCellsGrid[diagonalRightIndex][y - 1].ParticleState |= FHPParticleState.NE;
-                    if (xyParticleInState.HasFlag(FHPParticleState.E))
-                        newCellsGrid[x + 1][y].ParticleState |= FHPParticleState.E;
-                    if (xyParticleInState.HasFlag(FHPParticleState.SE))
-                        newCellsGrid[diagonalRightIndex][y + 1].ParticleState |= FHPParticleState.SE;
-                    if (xyParticleInState.HasFlag(FHPParticleState.SW))
-                        newCellsGrid[diagonalLeftIndex][y + 1].ParticleState |= FHPParticleState.SW;
-                    if (xyParticleInState.HasFlag(FHPParticleState.W))
-                        newCellsGrid[x - 1][y].ParticleState |= FHPParticleState.W;
-                    if (xyParticleInState.HasFlag(FHPParticleState.NW))
-                        newCellsGrid[diagonalLeftIndex][y - 1].ParticleState |= FHPParticleState.NW;
+                    if (particleInStateXY.HasFlag(FHPParticleState.RightUp))
+                        newCellsGrid[diagonalRightIndex][y - 1].ParticleState |= FHPParticleState.RightUp;
+                    if (particleInStateXY.HasFlag(FHPParticleState.Right))
+                        newCellsGrid[x + 1][y].ParticleState |= FHPParticleState.Right;
+                    if (particleInStateXY.HasFlag(FHPParticleState.RightDown))
+                        newCellsGrid[diagonalRightIndex][y + 1].ParticleState |= FHPParticleState.RightDown;
+                    if (particleInStateXY.HasFlag(FHPParticleState.LeftDown))
+                        newCellsGrid[diagonalLeftIndex][y + 1].ParticleState |= FHPParticleState.LeftDown;
+                    if (particleInStateXY.HasFlag(FHPParticleState.Left))
+                        newCellsGrid[x - 1][y].ParticleState |= FHPParticleState.Left;
+                    if (particleInStateXY.HasFlag(FHPParticleState.LeftUp))
+                        newCellsGrid[diagonalLeftIndex][y - 1].ParticleState |= FHPParticleState.LeftUp;
+
+                    cellXY.ParticleState = FHPParticleState.None;
                 }
             }
         }

@@ -41,6 +41,7 @@
     <Compile Include="ColorMode.cs" />
     <Compile Include="ColorValues.cs" />
     <Compile Include="ColorValuesComparer.cs" />
+    <Compile Include="CellularAutomatonExtensionMethods.cs" />
     <Compile Include="FHP.cs" />
     <Compile Include="FHPCell.cs" />
     <Compile Include="FHPCellState.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="ForestFireCell.cs" />
     <Compile Include="ForestFireCellState.cs" />
     <Compile Include="Fraction.cs" />
+    <Compile Include="ICell.cs" />
     <Compile Include="ICellularAutomaton.cs" />
     <Compile Include="IStatedCellularAutomaton.cs" />
     <Compile Include="Neighborhood.cs" />

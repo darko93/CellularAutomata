@@ -6,17 +6,24 @@ using System.Threading.Tasks;
 
 namespace CellularAutomata
 {
-    class SandPileCell
+    class SandPileCell : ICell<SandPileCellState>
     {
-        private const int colorRGBDeviation = 30;
-        private ColorValues deviatedSandColor = null;
-        private static Randomizer randomizer = Randomizer.Instance;
-
         private static ColorValues sandColor = ColorValues.Sand;
         private static ColorValues airColor = ColorValues.Air;
         private static ColorValues wallColor = ColorValues.Wall;
 
+        private static Randomizer randomizer = Randomizer.Instance;
+        private const int colorRGBDeviation = 30;
+
+        private ColorValues deviatedSandColor = null;
+
         public SandPileCellState State { get; set; }
+
+        public SandPileCell(SandPileCellState cellState, ColorMode sandColorMode)
+        {
+            State = cellState;
+            SetSandColorMode(sandColorMode);
+        }
 
         public ColorValues GetColorValues()
         {
@@ -31,43 +38,6 @@ namespace CellularAutomata
                 default:
                     return null;
             }
-        }
-
-        public static void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
-        {
-            switch (cellState)
-            {
-                case SandPileCellState.Sand:
-                    sandColor = colorValues;
-                    break;
-                case SandPileCellState.Air:
-                    airColor = colorValues;
-                    break;
-                case SandPileCellState.Wall:
-                    wallColor = colorValues;
-                    break;
-            }
-        }
-
-        public static ColorValues GetColorValues(SandPileCellState cellState)
-        {
-            switch (cellState)
-            {
-                case SandPileCellState.Air:
-                    return airColor;
-                case SandPileCellState.Sand:
-                    return sandColor;
-                case SandPileCellState.Wall:
-                    return wallColor;
-                default:
-                    return null;
-            }
-        }
-
-        public SandPileCell(SandPileCellState cellState, ColorMode sandColorMode)
-        {
-            State = cellState;
-            SetSandColorMode(sandColorMode);
         }
 
         public void SetSandColorMode(ColorMode sandColorMode)
@@ -109,7 +79,38 @@ namespace CellularAutomata
             lowerCell.deviatedSandColor = tempThisDeviatedSandColor;
         }
 
-        public static ColorValues[] GetColors() => // Gets only basic sand color
+        public static ColorValues GetColorValues(SandPileCellState cellState)
+        {
+            switch (cellState)
+            {
+                case SandPileCellState.Air:
+                    return airColor;
+                case SandPileCellState.Sand:
+                    return sandColor;
+                case SandPileCellState.Wall:
+                    return wallColor;
+                default:
+                    return null;
+            }
+        }
+
+        public static void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
+        {
+            switch (cellState)
+            {
+                case SandPileCellState.Sand:
+                    sandColor = colorValues;
+                    break;
+                case SandPileCellState.Air:
+                    airColor = colorValues;
+                    break;
+                case SandPileCellState.Wall:
+                    wallColor = colorValues;
+                    break;
+            }
+        }
+
+        public static ColorValues[] GetColors() => // Gets only basic sand color.
             new[]
             {
                 sandColor,

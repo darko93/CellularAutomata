@@ -6,15 +6,29 @@ using System.Threading.Tasks;
 
 namespace CellularAutomata
 {
-    class FHPCell
+    class FHPCell : ICell<FHPCellState>
     {
         private static ColorValues emptyCellColor = ColorValues.Air;
         private static ColorValues particleColor = ColorValues.Particle;
         private static ColorValues wallColor = ColorValues.Wall;
 
-        private static Randomizer randomizer = Randomizer.Instance;
-
         public FHPParticleState ParticleState { get; set; }
+
+        public FHPCellState State
+        {
+            get
+            {
+                if (ParticleState == FHPParticleState.None)
+                    return FHPCellState.Empty;
+                if (ParticleState.HasFlag(FHPParticleState.Wall))
+                    return FHPCellState.Wall;
+                return FHPCellState.Particle;
+            }
+            set
+            {
+                SetState(value);
+            }
+        }
 
         public FHPCell(FHPParticleState particleState)
         {
@@ -26,15 +40,6 @@ namespace CellularAutomata
             SetState(cellState);
         }
 
-        public FHPCellState GetState()
-        {
-            if (ParticleState == FHPParticleState.None)
-                return FHPCellState.Empty;
-            if (ParticleState.HasFlag(FHPParticleState.Wall))
-                return FHPCellState.Wall;
-            return FHPCellState.Particle;
-        }
-
         public void SetState(FHPCellState state)
         {
             if (state == FHPCellState.Empty)
@@ -43,26 +48,26 @@ namespace CellularAutomata
                 ParticleState = FHPParticleState.Wall;
             else // if (state == FHPCellState.Particle)
             {
-                int randomDirectionNumber = randomizer.Next(6);
+                int randomDirectionNumber = Randomizer.Instance.Next(6);
                 switch (randomDirectionNumber)
                 {
                     case 0:
-                        ParticleState = FHPParticleState.NE;
+                        ParticleState = FHPParticleState.RightUp;
                         break;
                     case 1:
-                        ParticleState = FHPParticleState.E;
+                        ParticleState = FHPParticleState.Right;
                         break;
                     case 2:
-                        ParticleState = FHPParticleState.SE;
+                        ParticleState = FHPParticleState.RightDown;
                         break;
                     case 3:
-                        ParticleState = FHPParticleState.SW;
+                        ParticleState = FHPParticleState.LeftDown;
                         break;
                     case 4:
-                        ParticleState = FHPParticleState.W;
+                        ParticleState = FHPParticleState.Left;
                         break;
                     case 5:
-                        ParticleState = FHPParticleState.NW;
+                        ParticleState = FHPParticleState.LeftUp;
                         break;
                 }
             }
@@ -76,14 +81,6 @@ namespace CellularAutomata
                 return wallColor;
             return particleColor;
         }
-
-        public static ColorValues[] GetCellsColors() =>
-            new[]
-            {
-                emptyCellColor,
-                particleColor,
-                wallColor
-            };
         
         public static ColorValues GetColorValues(FHPCellState cellState)
         {
@@ -115,5 +112,13 @@ namespace CellularAutomata
                     break;
             }
         }
+
+        public static ColorValues[] GetCellsColors() =>
+            new[]
+            {
+                emptyCellColor,
+                particleColor,
+                wallColor
+            };
     }
 }

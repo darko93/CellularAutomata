@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CellularAutomata
 {
-    interface IStatedCellularAutomaton<TCellState>
+    public interface IStatedCellularAutomaton<TCellState> : ICellularAutomaton
     {
         TCellState GetCellState(int x, int y);
         void SetCellState(int x, int y, TCellState cellState);

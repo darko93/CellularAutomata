@@ -75,37 +75,6 @@ namespace CellularAutomata
         public void SetColorValues(ForestFireCellState cellState, ColorValues colorValues) =>
             ForestFireCell.SetColorValues(cellState, colorValues);
 
-        public void SetRandomCellsState(int cellsPercentage, ForestFireCellState cellState, Point leftBottomBound, Point rightTopBound)
-        {
-            Point[] randomPoints = randomizer.GetDistinctRandomPoints(cellsPercentage, leftBottomBound, rightTopBound);
-
-            foreach (Point point in randomPoints)
-                cellsGrid[point.X + borderThickness][point.Y + borderThickness].State = cellState;
-        }
-
-        public void SetRandomCellsState(int cellsPercentage, ForestFireCellState cellState)
-        {
-            Point leftBottomBound = new Point(0, 0);
-            Point rightTopBound = new Point(Width - 1, Height - 1);
-            SetRandomCellsState(cellsPercentage, cellState, leftBottomBound, rightTopBound);
-        }
-
-        public void SetRandomCellsState(int cellsPercentage, ForestFireCellState cellState, Point location, int width, int height)
-        {
-            double halfWidth = width * 0.5;
-            int leftBoundX = location.X - (int)Math.Floor(halfWidth);
-            int rightBoundX = location.X + (int)Math.Ceiling(halfWidth);
-
-            double halfHeight = height * 0.5;
-            int bottomBoundY = location.Y - (int)Math.Floor(halfHeight);
-            int topBoundY = location.Y + (int)Math.Floor(halfHeight);
-
-            Point leftBottomBound = new Point(leftBoundX, bottomBoundY);
-            Point rightTopBound = new Point(rightBoundX, topBoundY);
-
-            SetRandomCellsState(cellsPercentage, cellState, leftBottomBound, rightTopBound);
-        }
-
         private int GetOrthogonalNeighborsOfStateAmount(int cellX, int cellY, ForestFireCellState cellState)
         {
             int neighborsAmount = 0;
