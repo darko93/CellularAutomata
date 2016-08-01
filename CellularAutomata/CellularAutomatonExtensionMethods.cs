@@ -31,7 +31,7 @@ namespace CellularAutomata
 
             double halfHeight = height * 0.5;
             int bottomBoundY = location.Y - (int)Math.Floor(halfHeight);
-            int topBoundY = location.Y + (int)Math.Floor(halfHeight);
+            int topBoundY = location.Y + (int)Math.Ceiling(halfHeight);
 
             Point leftBottomBound = new Point(leftBoundX, bottomBoundY);
             Point rightTopBound = new Point(rightBoundX, topBoundY);
