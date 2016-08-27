@@ -19,7 +19,6 @@ namespace CellularAutomata
         public Fraction GrowProbability { get; set; } = new Fraction(1, 200);
         public Fraction SpontanBurnProbability { get; set; } = new Fraction(1, 200000);
         public Fraction BurnFromNeighborProbability { get; set; } = new Fraction(1, 3);
-        public int PercentageInitialTreeDensity { get; private set; } = 0;
         public int BurnStepsAmount
         {
             get { return ForestFireCell.TotalBurnStepsAmount; }
@@ -60,20 +59,20 @@ namespace CellularAutomata
         public ColorValues GetColorValues(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].GetColorValues();
 
-        public ColorValues[] GetCellsColors() =>
-            ForestFireCell.GetColors();
-
         public ForestFireCellState GetCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State;
 
-        public void SetCellState(int x, int y, ForestFireCellState cellState) =>
+        public void SetCellState(ForestFireCellState cellState, int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
         public ColorValues GetColorValues(ForestFireCellState cellState) =>
             ForestFireCell.GetColorValues(cellState);
 
-        public void SetColorValues(ForestFireCellState cellState, ColorValues colorValues) =>
-            ForestFireCell.SetColorValues(cellState, colorValues);
+        public void SetColorValues(ColorValues colorValues, ForestFireCellState cellState) =>
+            ForestFireCell.SetColorValues(colorValues, cellState);
+        
+        public ColorValues[] GetCellsColors() =>
+            ForestFireCell.GetColors();
 
         private int GetOrthogonalNeighborsOfStateAmount(int cellX, int cellY, ForestFireCellState cellState)
         {
@@ -121,10 +120,11 @@ namespace CellularAutomata
 
         private bool StartToBurn(int cellX, int cellY)
         {
-            if (randomizer.BernoulliTrialSuccess(SpontanBurnProbability))
-                return true;
             int burningNeighborsAmount = GetNeighborsOfStateAmount(cellX, cellY, ForestFireCellState.BurningTree);
-            return randomizer.AtLeastOneSuccessInBernoulliProcess(BurnFromNeighborProbability, burningNeighborsAmount);
+            if (burningNeighborsAmount == 0)
+                return randomizer.BernoulliTrialSuccess(SpontanBurnProbability);
+            else // if (burningNeighborsAmount > 0)
+                return randomizer.AtLeastOneSuccessInBernoulliProcess(BurnFromNeighborProbability, burningNeighborsAmount);
         }
 
         private void SwapCellsGrid()

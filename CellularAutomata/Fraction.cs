@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CellularAutomata
 {
-    public class Fraction
+    public struct Fraction
     {
         public int Nominator { get; set; }
         public int Denominator { get; set; }
@@ -17,7 +17,13 @@ namespace CellularAutomata
             Denominator = denominator;
         }
 
-        public void Pow(int exponent)
+        public void Reinitialize(int nominator, int denominator)
+        {
+            Nominator = nominator;
+            Denominator = denominator;
+        }
+
+        internal void Pow(int exponent)
         {
             Nominator = (int) Math.Pow(Nominator, exponent);
             Denominator = (int) Math.Pow(Denominator, exponent);

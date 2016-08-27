@@ -8,19 +8,19 @@ namespace CellularAutomata
 {
     class FHPCell : ICell<FHPCellState>
     {
-        private static ColorValues emptyCellColor = ColorValues.Air;
+        private static ColorValues airColor = ColorValues.Air;
         private static ColorValues particleColor = ColorValues.Particle;
         private static ColorValues wallColor = ColorValues.Wall;
 
-        public FHPParticleState ParticleState { get; set; }
+        public FHPParticleCellState ParticleState { get; set; }
 
         public FHPCellState State
         {
             get
             {
-                if (ParticleState == FHPParticleState.None)
+                if (ParticleState == FHPParticleCellState.None)
                     return FHPCellState.Empty;
-                if (ParticleState.HasFlag(FHPParticleState.Wall))
+                if (ParticleState.HasFlag(FHPParticleCellState.Wall))
                     return FHPCellState.Wall;
                 return FHPCellState.Particle;
             }
@@ -30,7 +30,7 @@ namespace CellularAutomata
             }
         }
 
-        public FHPCell(FHPParticleState particleState)
+        public FHPCell(FHPParticleCellState particleState)
         {
             ParticleState = particleState;
         }
@@ -43,31 +43,34 @@ namespace CellularAutomata
         public void SetState(FHPCellState state)
         {
             if (state == FHPCellState.Empty)
-                ParticleState = FHPParticleState.None;
+                ParticleState = FHPParticleCellState.None;
             else if (state == FHPCellState.Wall)
-                ParticleState = FHPParticleState.Wall;
+                ParticleState = FHPParticleCellState.Wall;
             else // if (state == FHPCellState.Particle)
             {
-                int randomDirectionNumber = Randomizer.Instance.Next(6);
+                int randomDirectionNumber = Randomizer.Instance.Next(7);
                 switch (randomDirectionNumber)
                 {
                     case 0:
-                        ParticleState = FHPParticleState.RightUp;
+                        ParticleState = FHPParticleCellState.Northeast;
                         break;
                     case 1:
-                        ParticleState = FHPParticleState.Right;
+                        ParticleState = FHPParticleCellState.East;
                         break;
                     case 2:
-                        ParticleState = FHPParticleState.RightDown;
+                        ParticleState = FHPParticleCellState.Southeast;
                         break;
                     case 3:
-                        ParticleState = FHPParticleState.LeftDown;
+                        ParticleState = FHPParticleCellState.Southwest;
                         break;
                     case 4:
-                        ParticleState = FHPParticleState.Left;
+                        ParticleState = FHPParticleCellState.West;
                         break;
                     case 5:
-                        ParticleState = FHPParticleState.LeftUp;
+                        ParticleState = FHPParticleCellState.Northwest;
+                        break;
+                    case 6:
+                        ParticleState = FHPParticleCellState.Rest;
                         break;
                 }
             }
@@ -75,9 +78,9 @@ namespace CellularAutomata
 
         public ColorValues GetColorValues()
         {
-            if (ParticleState == FHPParticleState.None)
-                return emptyCellColor;
-            if (ParticleState.HasFlag(FHPParticleState.Wall))
+            if (ParticleState == FHPParticleCellState.None)
+                return airColor;
+            if (ParticleState.HasFlag(FHPParticleCellState.Wall))
                 return wallColor;
             return particleColor;
         }
@@ -87,7 +90,7 @@ namespace CellularAutomata
             switch (cellState)
             {
                 case FHPCellState.Empty:
-                    return emptyCellColor;
+                    return airColor;
                 case FHPCellState.Particle:
                     return particleColor;
                 case FHPCellState.Wall:
@@ -97,12 +100,12 @@ namespace CellularAutomata
             }
         }
 
-        public static void SetColorValues(FHPCellState cellState, ColorValues colorValues)
+        public static void SetColorValues(ColorValues colorValues, FHPCellState cellState)
         {
             switch (cellState)
             {
                 case FHPCellState.Empty:
-                    emptyCellColor = colorValues;
+                    airColor = colorValues;
                     break;
                 case FHPCellState.Particle:
                     particleColor = colorValues;
@@ -116,7 +119,7 @@ namespace CellularAutomata
         public static ColorValues[] GetCellsColors() =>
             new[]
             {
-                emptyCellColor,
+                airColor,
                 particleColor,
                 wallColor
             };

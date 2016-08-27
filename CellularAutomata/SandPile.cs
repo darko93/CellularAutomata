@@ -18,8 +18,6 @@ namespace CellularAutomata
 
         private const int borderThickness = 1;
 
-        private static Randomizer randomizer = Randomizer.Instance;
-
         public Fraction NeighboringRemainAtRestProbability { get; set; } = new Fraction(1, 2);
 
         private ColorMode sandColorMode = ColorMode.Uniform;
@@ -43,10 +41,13 @@ namespace CellularAutomata
             Reinitialize(width, height, colorMode);
         }
 
+        public SandPile(int width, int height) 
+            : this(width, height, ColorMode.Uniform) { }
+
         // Creates SandPile instance with specified sand color and sets SandColorMode to SlightlyDifferent.
         public SandPile(int width, int height, ColorValues sandColor)
         {
-            SetColorValues(SandPileCellState.Sand, sandColor);
+            SetColorValues(sandColor, SandPileCellState.SandGrain);
             Reinitialize(width, height, ColorMode.SlightlyDifferent);
         }
         public void Reinitialize(int width, int height, ColorMode sandColorMode)
@@ -64,7 +65,7 @@ namespace CellularAutomata
                     if (x == 0 || y == 0 || x == extendedWidth - 1 || y == extendedHeight - 1)
                         state = SandPileCellState.Wall;
                     else
-                        state = SandPileCellState.Air;
+                        state = SandPileCellState.Empty;
                     cellsGrid[x][y] = new SandPileCell(state, sandColorMode);
                 }
             }
@@ -100,16 +101,16 @@ namespace CellularAutomata
         public SandPileCellState GetCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State;
 
-        public void SetCellState(int x, int y, SandPileCellState cellState) =>
+        public void SetCellState(SandPileCellState cellState, int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
         public ColorValues GetColorValues(SandPileCellState cellState) =>
             SandPileCell.GetColorValues(cellState);
 
-        public void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
+        public void SetColorValues(ColorValues colorValues, SandPileCellState cellState)
         {
-            SandPileCell.SetColorValues(cellState, colorValues);
-            if (cellState == SandPileCellState.Sand && SandColorMode == ColorMode.SlightlyDifferent)
+            SandPileCell.SetColorValues(colorValues, cellState);
+            if (cellState == SandPileCellState.SandGrain && SandColorMode == ColorMode.SlightlyDifferent)
             {
                 foreach (SandPileCell[] cells in cellsGrid)
                     foreach (SandPileCell cell in cells)
@@ -126,64 +127,64 @@ namespace CellularAutomata
 
             bool ruleApplied = false;
 
-            if (cellXY.State == SandPileCellState.Air && cellX1Y.State == SandPileCellState.Sand)
+            if (cellXY.State == SandPileCellState.Empty && cellX1Y.State == SandPileCellState.SandGrain)
             {
-                if (cellXY1.State == SandPileCellState.Air)
+                if (cellXY1.State == SandPileCellState.Empty)
                 {
-                    if (cellX1Y1.State == SandPileCellState.Air)
+                    if (cellX1Y1.State == SandPileCellState.Empty)
                     {
                         cellX1Y.FallTo(cellX1Y1); // 1
                         ruleApplied = true;
                     }
-                    else if (cellX1Y1.State == SandPileCellState.Sand)
+                    else if (cellX1Y1.State == SandPileCellState.SandGrain)
                     {
                         cellX1Y.FallTo(cellXY1); // 2
                         ruleApplied = true;
                     }
                 }
-                else if (cellXY1.State == SandPileCellState.Sand && cellX1Y1.State == SandPileCellState.Air)
+                else if (cellXY1.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty)
                 {
                     cellX1Y.FallTo(cellX1Y1); // 3
                     ruleApplied = true;
                 }
             }
-            else if (cellXY.State == SandPileCellState.Sand)
+            else if (cellXY.State == SandPileCellState.SandGrain)
             {
-                if (cellX1Y.State == SandPileCellState.Air)
+                if (cellX1Y.State == SandPileCellState.Empty)
                 {
-                    if (cellXY1.State == SandPileCellState.Air)
+                    if (cellXY1.State == SandPileCellState.Empty)
                     {
                         cellXY.FallTo(cellXY1); // 4, 5
                         ruleApplied = true;
                     }
-                    else if (cellXY1.State == SandPileCellState.Sand && cellX1Y1.State == SandPileCellState.Air)
+                    else if (cellXY1.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty)
                     {
                         cellXY.FallTo(cellX1Y1); // 6
                         ruleApplied = true;
                     }
                 }
-                if (cellX1Y.State == SandPileCellState.Sand)
+                if (cellX1Y.State == SandPileCellState.SandGrain)
                 {
-                    if (cellXY1.State == SandPileCellState.Air)
+                    if (cellXY1.State == SandPileCellState.Empty)
                     {
-                        if (cellX1Y1.State == SandPileCellState.Air)
+                        if (cellX1Y1.State == SandPileCellState.Empty)
                         {
-                            if (!randomizer.BernoulliTrialSuccess(NeighboringRemainAtRestProbability))
+                            if (!Randomizer.Instance.BernoulliTrialSuccess(NeighboringRemainAtRestProbability))
                             {
                                 cellXY.FallTo(cellXY1); // 7
                                 cellX1Y.FallTo(cellX1Y1);
                                 ruleApplied = true;
                             }
                         }
-                        else if (cellX1Y1.State == SandPileCellState.Sand)
+                        else if (cellX1Y1.State == SandPileCellState.SandGrain)
                         {
                             cellXY.FallTo(cellXY1); // 8
                             ruleApplied = true;
                         }
                     }
-                    else if (cellXY1.State == SandPileCellState.Sand)
+                    else if (cellXY1.State == SandPileCellState.SandGrain)
                     {
-                        if (cellX1Y1.State == SandPileCellState.Air)
+                        if (cellX1Y1.State == SandPileCellState.Empty)
                         {
                             cellX1Y.FallTo(cellX1Y1); // 9
                             ruleApplied = true;
@@ -194,10 +195,10 @@ namespace CellularAutomata
 
             if (!ruleApplied)
             {
-                if (cellX1Y.State == SandPileCellState.Sand && cellX1Y1.State == SandPileCellState.Air
+                if (cellX1Y.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty
                     && (cellXY.State == SandPileCellState.Wall || cellXY1.State == SandPileCellState.Wall))
                     cellX1Y.FallTo(cellX1Y1); // 10
-                if (cellXY.State == SandPileCellState.Sand && cellXY1.State == SandPileCellState.Air
+                if (cellXY.State == SandPileCellState.SandGrain && cellXY1.State == SandPileCellState.Empty
                     && (cellX1Y.State == SandPileCellState.Wall || cellX1Y1.State == SandPileCellState.Wall))
                     cellXY.FallTo(cellXY1); // 11
             }

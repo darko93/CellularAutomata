@@ -9,8 +9,8 @@ namespace CellularAutomata
     public interface IStatedCellularAutomaton<TCellState> : ICellularAutomaton
     {
         TCellState GetCellState(int x, int y);
-        void SetCellState(int x, int y, TCellState cellState);
+        void SetCellState(TCellState cellState, int x, int y);
         ColorValues GetColorValues(TCellState cellState);
-        void SetColorValues(TCellState cellState, ColorValues colorValues);
+        void SetColorValues(ColorValues colorValues, TCellState cellState);
     }
 }

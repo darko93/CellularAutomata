@@ -46,7 +46,7 @@
     <Compile Include="FHPCell.cs" />
     <Compile Include="FHPCellState.cs" />
     <Compile Include="FHPCollision.cs" />
-    <Compile Include="FHPParticleState.cs" />
+    <Compile Include="FHPParticleCellState.cs" />
     <Compile Include="ForestFire.cs" />
     <Compile Include="ForestFireCell.cs" />
     <Compile Include="ForestFireCellState.cs" />

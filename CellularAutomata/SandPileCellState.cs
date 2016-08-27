@@ -8,8 +8,8 @@ namespace CellularAutomata
 {
     public enum SandPileCellState
     {
-        Air,
-        Sand,
+        Empty,
+        SandGrain,
         Wall
     }
 }

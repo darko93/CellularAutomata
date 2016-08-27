@@ -77,7 +77,7 @@ namespace CellularAutomata
             }
         }
 
-        public static void SetColorValues(ForestFireCellState cellState, ColorValues colorValues)
+        public static void SetColorValues(ColorValues colorValues, ForestFireCellState cellState)
         {
             switch (cellState)
             {

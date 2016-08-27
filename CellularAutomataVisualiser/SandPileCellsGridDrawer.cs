@@ -19,8 +19,8 @@ namespace CellularAutomataVisualiser
                 Color airColor = Color.FromArgb(ColorValues.Air.ToInt());
                 Color sandColor = Color.FromArgb(ColorValues.Sand.ToInt());
                 Color wallColor = Color.FromArgb(ColorValues.Wall.ToInt());
-                colors.Add(SandPileCellState.Air, airColor);
-                colors.Add(SandPileCellState.Sand, sandColor);
+                colors.Add(SandPileCellState.Empty, airColor);
+                colors.Add(SandPileCellState.SandGrain, sandColor);
                 colors.Add(SandPileCellState.Wall, wallColor);
                 return colors;
             }

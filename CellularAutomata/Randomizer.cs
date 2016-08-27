@@ -40,7 +40,7 @@ namespace CellularAutomata
 
             for (int i = 0; i < numbersAmount; i++)
             {
-                int randomIndex = random.Next(possibleNumbers.Count);
+                int randomIndex = Next(possibleNumbers.Count);
                 resultNumbers[i] = possibleNumbers[randomIndex];
                 possibleNumbers.RemoveAt(randomIndex);
             }
@@ -72,15 +72,15 @@ namespace CellularAutomata
             return distinctRandomPoints;
         }
 
+        public bool BernoulliTrialSuccess(Fraction successProbability) =>
+            Next(successProbability.Denominator) < successProbability.Nominator;
+
         private Fraction GetComplementaryEventProbability(Fraction probability)
         {
             int nominator = probability.Denominator - probability.Nominator;
             return new Fraction(nominator, probability.Denominator);
         }
-        
-        public bool BernoulliTrialSuccess(Fraction successProbability) =>
-            random.Next(successProbability.Denominator) < successProbability.Nominator;
-        
+
         public bool AtLeastOneSuccessInBernoulliProcess(Fraction singleTrialSuccessProbability, int trialsAmount) 
         {
             Fraction failureProbability = GetComplementaryEventProbability(singleTrialSuccessProbability);

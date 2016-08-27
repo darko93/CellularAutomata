@@ -13,7 +13,7 @@ namespace CellularAutomata
         private static ColorValues wallColor = ColorValues.Wall;
 
         private static Randomizer randomizer = Randomizer.Instance;
-        private const int colorRGBDeviation = 30;
+        private const int colorRGBDeviation = 50;
 
         private ColorValues deviatedSandColor = null;
 
@@ -29,9 +29,9 @@ namespace CellularAutomata
         {
             switch (State)
             {
-                case SandPileCellState.Sand:
+                case SandPileCellState.SandGrain:
                     return deviatedSandColor;
-                case SandPileCellState.Air:
+                case SandPileCellState.Empty:
                     return airColor;
                 case SandPileCellState.Wall:
                     return wallColor;
@@ -53,9 +53,9 @@ namespace CellularAutomata
             int redDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
             int greenDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
             int blueDeviation = randomizer.Next(-colorRGBDeviation, colorRGBDeviation);
-            byte deviatedRed = GetByteBoundColorValue(sandColor.R + redDeviation);
-            byte deviatedGreen = GetByteBoundColorValue(sandColor.G + greenDeviation);
-            byte deviatedBlue = GetByteBoundColorValue(sandColor.B + blueDeviation);
+            byte deviatedRed = GetByteBoundColorValue(sandColor.Red + redDeviation);
+            byte deviatedGreen = GetByteBoundColorValue(sandColor.Green + greenDeviation);
+            byte deviatedBlue = GetByteBoundColorValue(sandColor.Blue + blueDeviation);
             deviatedSandColor = new ColorValues(deviatedRed, deviatedGreen, deviatedBlue);
         }
 
@@ -72,10 +72,10 @@ namespace CellularAutomata
         {
             ColorValues tempThisDeviatedSandColor = deviatedSandColor;
 
-            State = SandPileCellState.Air;
+            State = SandPileCellState.Empty;
             deviatedSandColor = lowerCell.deviatedSandColor;
 
-            lowerCell.State = SandPileCellState.Sand;
+            lowerCell.State = SandPileCellState.SandGrain;
             lowerCell.deviatedSandColor = tempThisDeviatedSandColor;
         }
 
@@ -83,9 +83,9 @@ namespace CellularAutomata
         {
             switch (cellState)
             {
-                case SandPileCellState.Air:
+                case SandPileCellState.Empty:
                     return airColor;
-                case SandPileCellState.Sand:
+                case SandPileCellState.SandGrain:
                     return sandColor;
                 case SandPileCellState.Wall:
                     return wallColor;
@@ -94,14 +94,14 @@ namespace CellularAutomata
             }
         }
 
-        public static void SetColorValues(SandPileCellState cellState, ColorValues colorValues)
+        public static void SetColorValues(ColorValues colorValues, SandPileCellState cellState)
         {
             switch (cellState)
             {
-                case SandPileCellState.Sand:
+                case SandPileCellState.SandGrain:
                     sandColor = colorValues;
                     break;
-                case SandPileCellState.Air:
+                case SandPileCellState.Empty:
                     airColor = colorValues;
                     break;
                 case SandPileCellState.Wall:
