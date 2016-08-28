@@ -8,7 +8,9 @@ namespace CellularAutomata
 {
     public class FHP : ICellularAutomaton, IStatedCellularAutomaton<FHPCellState>
     {
-        private FHPParticleCellState[][] outState = null;
+        private static FHPParticleCellState[] outState1 = null;
+        private static FHPParticleCellState[] outState2 = null;
+        private static FHPParticleCellState[][] outStatesPair = null;
 
         private FHPCell[][] cellsGrid = null;
         private FHPCell[][] newCellsGrid = null;
@@ -20,29 +22,34 @@ namespace CellularAutomata
 
         public FHP(int width, int height)
         {
-            if (outState == null)
+            if (outState1 == null || outState2 == null || outStatesPair == null)
                 InitializeOutStates();
             Reinitialize(width, height);
         }
 
         private void InitializeOutStates()
         {
-            outState = new FHPParticleCellState[256][];
+            outState1 = new FHPParticleCellState[256];
+            outState2 = new FHPParticleCellState[256];
+            outStatesPair = new FHPParticleCellState[2][]
+            {
+                outState1,
+                outState2
+            };
 
             // Initialize non-boundary part of collisions array.
             for (int i = 0; i < 128; i++)
             {
                 FHPParticleCellState iInState = (FHPParticleCellState)i;
-                outState[i] = new[] { iInState, iInState };
+                outState1[i] = outState2[i] = iInState;
             }
 
             // Setting non-boundary collisions.
             FHPCollision[] fhpCollisions = XMLManager.Instance.GetFHPCollisions();
             foreach (FHPCollision fhpCollision in fhpCollisions)
             {
-                FHPParticleCellState[] fhpOutStatesPair = outState[fhpCollision.InState];
-                fhpOutStatesPair[0] = (FHPParticleCellState)fhpCollision.OutState1;
-                fhpOutStatesPair[1] = (FHPParticleCellState)fhpCollision.OutState2;
+                outState1[fhpCollision.InState] = (FHPParticleCellState)fhpCollision.OutState1;
+                outState2[fhpCollision.InState] = (FHPParticleCellState)fhpCollision.OutState2;
             }
 
             // Initialize boundary part of collisions array and setting boundary collisions.
@@ -50,7 +57,7 @@ namespace CellularAutomata
             {
                 FHPParticleCellState iInState = (FHPParticleCellState)i;
                 FHPParticleCellState iOutState = GetBoundaryOutState(iInState);
-                outState[i] = new[] { iOutState, iOutState };
+                outState1[i] = outState2[i] = iOutState;
             }
         }
 
@@ -140,7 +147,7 @@ namespace CellularAutomata
                 {
                     FHPParticleCellState particleInStateXY = cellsGrid[x][y].ParticleState;
                     int randomOutStateIndex = Randomizer.Instance.Next(2);
-                    cellsGrid[x][y].ParticleState = outState[(int)particleInStateXY][randomOutStateIndex];
+                    cellsGrid[x][y].ParticleState = outStatesPair[randomOutStateIndex][(int)particleInStateXY];
                 }
             }
         }

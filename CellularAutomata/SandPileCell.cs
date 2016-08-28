@@ -19,7 +19,7 @@ namespace CellularAutomata
 
         public SandPileCellState State { get; set; }
 
-        public SandPileCell(SandPileCellState cellState, ColorMode sandColorMode)
+        public SandPileCell(SandPileCellState cellState, ColorsMode sandColorMode)
         {
             State = cellState;
             SetSandColorMode(sandColorMode);
@@ -40,9 +40,9 @@ namespace CellularAutomata
             }
         }
 
-        public void SetSandColorMode(ColorMode sandColorMode)
+        public void SetSandColorMode(ColorsMode sandColorMode)
         {
-            if (sandColorMode == ColorMode.SlightlyDifferent)
+            if (sandColorMode == ColorsMode.SlightlyDifferent)
                 ReinitializeDeviatedSandColor();
             else // if (sandColorMode == ColorMode.Uniform)
                 deviatedSandColor = sandColor;

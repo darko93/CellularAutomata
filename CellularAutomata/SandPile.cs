@@ -20,15 +20,15 @@ namespace CellularAutomata
 
         public Fraction NeighboringRemainAtRestProbability { get; set; } = new Fraction(1, 2);
 
-        private ColorMode sandColorMode = ColorMode.Uniform;
+        private ColorsMode sandColorMode = ColorsMode.Uniform;
 
-        public ColorMode SandColorMode
+        public ColorsMode SandColorMode
         {
             get { return sandColorMode; }
             set { SetSandColorMode(value); }
         }
 
-        private void SetSandColorMode(ColorMode sandColorMode)
+        private void SetSandColorMode(ColorsMode sandColorMode)
         {
             foreach (SandPileCell[] cells in cellsGrid)
                 foreach (SandPileCell cell in cells)
@@ -36,21 +36,21 @@ namespace CellularAutomata
             this.sandColorMode = sandColorMode;
         }
 
-        public SandPile(int width, int height, ColorMode colorMode)
+        public SandPile(int width, int height, ColorsMode colorMode)
         {
             Reinitialize(width, height, colorMode);
         }
 
         public SandPile(int width, int height) 
-            : this(width, height, ColorMode.Uniform) { }
+            : this(width, height, ColorsMode.Uniform) { }
 
         // Creates SandPile instance with specified sand color and sets SandColorMode to SlightlyDifferent.
         public SandPile(int width, int height, ColorValues sandColor)
         {
             SetColorValues(sandColor, SandPileCellState.SandGrain);
-            Reinitialize(width, height, ColorMode.SlightlyDifferent);
+            Reinitialize(width, height, ColorsMode.SlightlyDifferent);
         }
-        public void Reinitialize(int width, int height, ColorMode sandColorMode)
+        public void Reinitialize(int width, int height, ColorsMode sandColorMode)
         {
             int extendedWidth = width + borderThickness * 2;
             int extendedHeight = height + borderThickness * 2;
@@ -86,7 +86,7 @@ namespace CellularAutomata
 
         public ColorValues[] GetCellsColors()
         {
-            if (sandColorMode == ColorMode.Uniform)
+            if (sandColorMode == ColorsMode.Uniform)
                 return SandPileCell.GetColors();
             else // if (sandColorMode == ColorMode.SlightlyDifferent)
             {
@@ -110,7 +110,7 @@ namespace CellularAutomata
         public void SetColorValues(ColorValues colorValues, SandPileCellState cellState)
         {
             SandPileCell.SetColorValues(colorValues, cellState);
-            if (cellState == SandPileCellState.SandGrain && SandColorMode == ColorMode.SlightlyDifferent)
+            if (cellState == SandPileCellState.SandGrain && SandColorMode == ColorsMode.SlightlyDifferent)
             {
                 foreach (SandPileCell[] cells in cellsGrid)
                     foreach (SandPileCell cell in cells)

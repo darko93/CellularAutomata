@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CellularAutomata
 {
-    public enum ColorMode
+    public enum ColorsMode
     {
         Uniform,
         SlightlyDifferent

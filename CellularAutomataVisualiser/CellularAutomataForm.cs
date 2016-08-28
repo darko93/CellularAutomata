@@ -26,23 +26,23 @@ namespace CellularAutomataVisualiser
         {
             InitializeComponent();
 
-            FHP fhp = new FHP(400, 400);
-            fhp.SetRandomCellsState(FHPCellState.Particle, 75);
-            cellularAutomaton = fhp;
-            CellularAutomata.Point center = new CellularAutomata.Point((int)(fhp.Width * 0.5), (int)(fhp.Height * 0.5));
-            CellularAutomata.Point point = new CellularAutomata.Point(0, 0);
-            for (int x = 0; x < fhp.Width; x++)
-            {
-                for (int y = 0; y < fhp.Height; y++)
-                {
-                    point.X = x;
-                    point.Y = y;
-                    if (point.SquaredDistanceFrom(center) <= 900)
-                        //fhp.SetCellState(FHPCellState.Particle, x, y);
-                        fhp.SetParticleCellState(FHPParticleCellState.Northeast | FHPParticleCellState.East | FHPParticleCellState.Southeast |
-                            FHPParticleCellState.Southwest | FHPParticleCellState.West | FHPParticleCellState.Northwest | FHPParticleCellState.Rest, x, y);
-                }
-            }
+            //FHP fhp = new FHP(400, 400);
+            //fhp.SetRandomCellsState(FHPCellState.Particle, 75);
+            //cellularAutomaton = fhp;
+            //CellularAutomata.Point center = new CellularAutomata.Point((int)(fhp.Width * 0.5), (int)(fhp.Height * 0.5));
+            //CellularAutomata.Point point = new CellularAutomata.Point(0, 0);
+            //for (int x = 0; x < fhp.Width; x++)
+            //{
+            //    for (int y = 0; y < fhp.Height; y++)
+            //    {
+            //        point.X = x;
+            //        point.Y = y;
+            //        if (point.SquaredDistanceFrom(center) <= 900)
+            //            //fhp.SetCellState(FHPCellState.Particle, x, y);
+            //            fhp.SetParticleCellState(FHPParticleCellState.Northeast | FHPParticleCellState.East | FHPParticleCellState.Southeast |
+            //                FHPParticleCellState.Southwest | FHPParticleCellState.West | FHPParticleCellState.Northwest | FHPParticleCellState.Rest, x, y);
+            //    }
+            //}
 
             //FHP fhp = new FHP(300, 300);
             //fhp.SetRandomCellsState(FHPCellState.Particle, 75, new CellularAutomata.Point(3, 3), new CellularAutomata.Point(75, fhp.Height - 4));
@@ -75,7 +75,7 @@ namespace CellularAutomataVisualiser
             //cellularAutomaton = sandPile;
 
             ////SandPile sandPile = new SandPile(201, 351);
-            //SandPile sandPile = new SandPile(151, 231, ColorMode.Uniform);
+            //SandPile sandPile = new SandPile(151, 231, ColorMode.SlightlyDifferent);
             //CellularAutomata.Point center = new CellularAutomata.Point((int)(sandPile.Width * 0.5), (int)(sandPile.Height * 0.5));
             //int counter = 0;
             //int distanceFromCenter = 3;

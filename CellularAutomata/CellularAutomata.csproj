@@ -38,7 +38,7 @@
     <EmbeddedResource Include="FHPCollisions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorMode.cs" />
+    <Compile Include="ColorsMode.cs" />
     <Compile Include="ColorValues.cs" />
     <Compile Include="ColorValuesComparer.cs" />
     <Compile Include="CellularAutomatonExtensionMethods.cs" />
