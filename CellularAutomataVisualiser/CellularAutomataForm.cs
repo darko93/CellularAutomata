@@ -26,23 +26,29 @@ namespace CellularAutomataVisualiser
         {
             InitializeComponent();
 
-            //FHP fhp = new FHP(400, 400);
-            //fhp.SetRandomCellsState(FHPCellState.Particle, 75);
-            //cellularAutomaton = fhp;
-            //CellularAutomata.Point center = new CellularAutomata.Point((int)(fhp.Width * 0.5), (int)(fhp.Height * 0.5));
-            //CellularAutomata.Point point = new CellularAutomata.Point(0, 0);
-            //for (int x = 0; x < fhp.Width; x++)
-            //{
-            //    for (int y = 0; y < fhp.Height; y++)
-            //    {
-            //        point.X = x;
-            //        point.Y = y;
-            //        if (point.SquaredDistanceFrom(center) <= 900)
-            //            //fhp.SetCellState(FHPCellState.Particle, x, y);
-            //            fhp.SetParticleCellState(FHPParticleCellState.Northeast | FHPParticleCellState.East | FHPParticleCellState.Southeast |
-            //                FHPParticleCellState.Southwest | FHPParticleCellState.West | FHPParticleCellState.Northwest | FHPParticleCellState.Rest, x, y);
-            //    }
-            //}
+            FHP fhp = new FHP(400, 400);
+            fhp.SetCellsState(FHPCellState.Wall, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(fhp.Width - 1, 5 - 1));
+            fhp.SetCellsState(FHPCellState.Wall, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(5 - 1, fhp.Height - 5));
+            fhp.SetCellsState(FHPCellState.Wall, new CellularAutomata.Point(fhp.Width - 5, 0), new CellularAutomata.Point(fhp.Width - 1, fhp.Height - 1));
+            fhp.SetCellsState(FHPCellState.Wall, new CellularAutomata.Point(0, fhp.Height - 5), new CellularAutomata.Point(fhp.Width - 1, fhp.Height - 1));
+
+            fhp.SetRandomCellsState(FHPCellState.Particle, 75, new CellularAutomata.Point(5, 5), new CellularAutomata.Point(fhp.Width - 6, fhp.Height - 6));
+            cellularAutomaton = fhp;
+            CellularAutomata.Point center = new CellularAutomata.Point((int)(fhp.Width * 0.5), (int)(fhp.Height * 0.5));
+            CellularAutomata.Point point = new CellularAutomata.Point(0, 0);
+            for (int x = 0; x < fhp.Width; x++)
+            {
+                for (int y = 0; y < fhp.Height; y++)
+                {
+                    point.X = x;
+                    point.Y = y;
+                    if (point.SquaredDistanceFrom(center) <= 900)
+                        //fhp.SetCellState(FHPCellState.Particle, x, y);
+                        fhp.SetParticleCellState(FHPParticleCellState.Northeast | FHPParticleCellState.East | FHPParticleCellState.Southeast |
+                            FHPParticleCellState.Southwest | FHPParticleCellState.West | FHPParticleCellState.Northwest | FHPParticleCellState.Rest, x, y);
+                }
+            }
+            fhp.NextStep();
 
             //FHP fhp = new FHP(300, 300);
             //fhp.SetRandomCellsState(FHPCellState.Particle, 75, new CellularAutomata.Point(3, 3), new CellularAutomata.Point(75, fhp.Height - 4));
@@ -65,21 +71,25 @@ namespace CellularAutomataVisualiser
             //forestFire.BurnFromNeighborProbability = new Fraction(1, 1);
             //cellularAutomaton = forestFire;
 
-            //SandPile sandPile = new SandPile(200, 200, ColorMode.SlightlyDifferent);
-            //sandPile.SetRandomCellsState(SandPileCellState.SandGrain, 25);
-            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(0, sandPile.Height - 1));
-            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(sandPile.Width - 1, 0), new CellularAutomata.Point(sandPile.Width - 1, sandPile.Height - 1));
-            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(sandPile.Width - 1, 0));
-            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, sandPile.Height - 1), new CellularAutomata.Point(sandPile.Width - 1, sandPile.Height - 1));
+            //SandPile sandPile = new SandPile(200, 200, ColorsMode.SlightlyDifferent);
+            //sandPile.SetRandomCellsState(SandPileCellState.SandGrain, 30);
+            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(1, sandPile.Height - 1));
+            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(sandPile.Width - 2, 0), new CellularAutomata.Point(sandPile.Width - 1, sandPile.Height - 1));
+            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, 0), new CellularAutomata.Point(sandPile.Width - 1, 1));
+            //sandPile.SetRandomCellsState(SandPileCellState.Wall, 100, new CellularAutomata.Point(0, sandPile.Height - 2), new CellularAutomata.Point(sandPile.Width - 1, sandPile.Height - 1));
             ////sandPile.NeighboringRemainAtRestProbability = new Fraction(1, 4);
             //cellularAutomaton = sandPile;
 
             ////SandPile sandPile = new SandPile(201, 351);
-            //SandPile sandPile = new SandPile(151, 231, ColorMode.SlightlyDifferent);
+            //SandPile sandPile = new SandPile(151, 231, ColorsMode.SlightlyDifferent);
             //CellularAutomata.Point center = new CellularAutomata.Point((int)(sandPile.Width * 0.5), (int)(sandPile.Height * 0.5));
             //int counter = 0;
             //int distanceFromCenter = 3;
-            //int hourGlassThickness = 7;
+            //int hourGlassThickness = 4;
+            //for (int x = center.X - distanceFromCenter - hourGlassThickness; x < center.X - distanceFromCenter; x++)
+            //    sandPile.SetCellState(SandPileCellState.Wall, x, center.Y - 1);
+            //for (int x = center.X + distanceFromCenter + hourGlassThickness - 1; x > center.X + distanceFromCenter - 1; x--)
+            //    sandPile.SetCellState(SandPileCellState.Wall, x, center.Y - 1);
             //for (int y = center.Y - 2; y >= 0; y--)
             //{
             //    counter++;
@@ -87,12 +97,16 @@ namespace CellularAutomataVisualiser
             //        distanceFromCenter++;
             //    for (int x = center.X - distanceFromCenter - hourGlassThickness; x < center.X - distanceFromCenter; x++)
             //        sandPile.SetCellState(SandPileCellState.Wall, x, y);
-            //    for (int x = center.X + distanceFromCenter + hourGlassThickness; x >= center.X + distanceFromCenter; x--)
+            //    for (int x = center.X + distanceFromCenter + hourGlassThickness - 1; x > center.X + distanceFromCenter - 1; x--)
             //        sandPile.SetCellState(SandPileCellState.Wall, x, y);
 
-            //    if (y > 10)
+            //    if (y < hourGlassThickness)
+            //        for (int x = center.X - distanceFromCenter; x <= center.X + distanceFromCenter; x++)
+            //            sandPile.SetCellState(SandPileCellState.Wall, x, y);
+
+            //    if (y > 8)
             //    {
-            //        for (int x = center.X - distanceFromCenter; x < center.X + distanceFromCenter; x++)
+            //        for (int x = center.X - distanceFromCenter; x <= center.X + distanceFromCenter - 1; x++)
             //            sandPile.SetCellState(SandPileCellState.SandGrain, x, y);
             //    }
             //}
@@ -105,8 +119,12 @@ namespace CellularAutomataVisualiser
             //        distanceFromCenter++;
             //    for (int x = center.X - distanceFromCenter - hourGlassThickness; x < center.X - distanceFromCenter; x++)
             //        sandPile.SetCellState(SandPileCellState.Wall, x, y);
-            //    for (int x = center.X + distanceFromCenter + hourGlassThickness; x >= center.X + distanceFromCenter; x--)
+            //    for (int x = center.X + distanceFromCenter + hourGlassThickness - 1; x > center.X + distanceFromCenter - 1; x--)
             //        sandPile.SetCellState(SandPileCellState.Wall, x, y);
+
+            //    if (y >= sandPile.Height - hourGlassThickness)
+            //        for (int x = center.X - distanceFromCenter; x <= center.X + distanceFromCenter; x++)
+            //            sandPile.SetCellState(SandPileCellState.Wall, x, y);
             //}
             //cellularAutomaton = sandPile;
 
