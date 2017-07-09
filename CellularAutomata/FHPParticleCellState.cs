@@ -3,7 +3,7 @@
 namespace CellularAutomata
 {
     [Flags]
-    public enum FHPParticleCellState : byte
+    public enum FhpParticleCellState : byte
     {
         None = 0x0, // 0
         Northeast = 0x1, // 1

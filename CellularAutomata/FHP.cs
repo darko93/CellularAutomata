@@ -1,20 +1,20 @@
 ﻿namespace CellularAutomata
 {
-    public class FHP : ICellularAutomaton, IStatedCellularAutomaton<FHPCellState>
+    public class Fhp : ICellularAutomaton, IStatedCellularAutomaton<FhpCellState>
     {
-        private static FHPParticleCellState[] outState1 = null;
-        private static FHPParticleCellState[] outState2 = null;
-        private static FHPParticleCellState[][] outStatesPair = null;
+        private static FhpParticleCellState[] outState1 = null;
+        private static FhpParticleCellState[] outState2 = null;
+        private static FhpParticleCellState[][] outStatesPair = null;
 
-        private FHPCell[][] cellsGrid = null;
-        private FHPCell[][] newCellsGrid = null;
+        private FhpCell[][] cellsGrid = null;
+        private FhpCell[][] newCellsGrid = null;
 
         private const int borderThickness = 1;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public FHP(int width, int height)
+        public Fhp(int width, int height)
         {
             if (outState1 == null || outState2 == null || outStatesPair == null)
                 InitializeOutStates();
@@ -23,9 +23,9 @@
 
         private void InitializeOutStates()
         {
-            outState1 = new FHPParticleCellState[256];
-            outState2 = new FHPParticleCellState[256];
-            outStatesPair = new FHPParticleCellState[2][]
+            outState1 = new FhpParticleCellState[256];
+            outState2 = new FhpParticleCellState[256];
+            outStatesPair = new FhpParticleCellState[2][]
             {
                 outState1,
                 outState2
@@ -34,45 +34,45 @@
             // Initialize non-boundary part of collisions array.
             for (int i = 0; i < 128; i++)
             {
-                FHPParticleCellState iInState = (FHPParticleCellState)i;
+                FhpParticleCellState iInState = (FhpParticleCellState)i;
                 outState1[i] = outState2[i] = iInState;
             }
 
             // Setting non-boundary collisions.
-            FHPCollision[] fhpCollisions = XMLManager.Instance.GetFHPCollisions();
-            foreach (FHPCollision fhpCollision in fhpCollisions)
+            FhpCollision[] fhpCollisions = XmlManager.Instance.GetFhpCollisions();
+            foreach (FhpCollision fhpCollision in fhpCollisions)
             {
-                outState1[fhpCollision.InState] = (FHPParticleCellState)fhpCollision.OutState1;
-                outState2[fhpCollision.InState] = (FHPParticleCellState)fhpCollision.OutState2;
+                outState1[fhpCollision.InState] = (FhpParticleCellState)fhpCollision.OutState1;
+                outState2[fhpCollision.InState] = (FhpParticleCellState)fhpCollision.OutState2;
             }
 
             // Initialize boundary part of collisions array and setting boundary collisions.
             for (int i = 128; i < 256; i++)
             {
-                FHPParticleCellState iInState = (FHPParticleCellState)i;
-                FHPParticleCellState iOutState = GetBoundaryOutState(iInState);
+                FhpParticleCellState iInState = (FhpParticleCellState)i;
+                FhpParticleCellState iOutState = GetBoundaryOutState(iInState);
                 outState1[i] = outState2[i] = iOutState;
             }
         }
 
-        private FHPParticleCellState GetBoundaryOutState(FHPParticleCellState inState)
+        private FhpParticleCellState GetBoundaryOutState(FhpParticleCellState inState)
         {
-            FHPParticleCellState outState = FHPParticleCellState.Wall;
+            FhpParticleCellState outState = FhpParticleCellState.Wall;
 
-            if (inState.HasFlag(FHPParticleCellState.Northeast))
-                outState |= FHPParticleCellState.Southwest;
-            if (inState.HasFlag(FHPParticleCellState.East))
-                outState |= FHPParticleCellState.West;
-            if (inState.HasFlag(FHPParticleCellState.Southeast))
-                outState |= FHPParticleCellState.Northwest;
-            if (inState.HasFlag(FHPParticleCellState.Southwest))
-                outState |= FHPParticleCellState.Northeast;
-            if (inState.HasFlag(FHPParticleCellState.West))
-                outState |= FHPParticleCellState.East;
-            if (inState.HasFlag(FHPParticleCellState.Northwest))
-                outState |= FHPParticleCellState.Southeast;
-            if (inState.HasFlag(FHPParticleCellState.Rest)) // This shouldn't happen.
-                outState |= FHPParticleCellState.Rest;
+            if (inState.HasFlag(FhpParticleCellState.Northeast))
+                outState |= FhpParticleCellState.Southwest;
+            if (inState.HasFlag(FhpParticleCellState.East))
+                outState |= FhpParticleCellState.West;
+            if (inState.HasFlag(FhpParticleCellState.Southeast))
+                outState |= FhpParticleCellState.Northwest;
+            if (inState.HasFlag(FhpParticleCellState.Southwest))
+                outState |= FhpParticleCellState.Northeast;
+            if (inState.HasFlag(FhpParticleCellState.West))
+                outState |= FhpParticleCellState.East;
+            if (inState.HasFlag(FhpParticleCellState.Northwest))
+                outState |= FhpParticleCellState.Southeast;
+            if (inState.HasFlag(FhpParticleCellState.Rest)) // This shouldn't happen.
+                outState |= FhpParticleCellState.Rest;
 
             return outState;
         }
@@ -82,21 +82,21 @@
             int extendedWidth = width + borderThickness * 2;
             int extendedHeight = height + borderThickness * 2;
 
-            cellsGrid = new FHPCell[extendedWidth][];
-            newCellsGrid = new FHPCell[extendedWidth][];
+            cellsGrid = new FhpCell[extendedWidth][];
+            newCellsGrid = new FhpCell[extendedWidth][];
             for (int x = 0; x < extendedWidth; x++)
             {
-                cellsGrid[x] = new FHPCell[extendedHeight];
-                newCellsGrid[x] = new FHPCell[extendedHeight];
+                cellsGrid[x] = new FhpCell[extendedHeight];
+                newCellsGrid[x] = new FhpCell[extendedHeight];
                 for (int y = 0; y < extendedHeight; y++)
                 {
-                    FHPParticleCellState particleState;
+                    FhpParticleCellState particleState;
                     if (x == 0 || y == 0 || x == extendedWidth - 1 || y == extendedHeight - 1)
-                        particleState = FHPParticleCellState.Wall;
+                        particleState = FhpParticleCellState.Wall;
                     else
-                        particleState = FHPParticleCellState.None;
-                    cellsGrid[x][y] = new FHPCell(particleState);
-                    newCellsGrid[x][y] = new FHPCell(particleState);
+                        particleState = FhpParticleCellState.None;
+                    cellsGrid[x][y] = new FhpCell(particleState);
+                    newCellsGrid[x][y] = new FhpCell(particleState);
                 }
             }
             Width = width;
@@ -109,25 +109,25 @@
         public ColorValues GetColorValues(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].GetColorValues();
 
-        public FHPCellState GetCellState(int x, int y) =>
+        public FhpCellState GetCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State;
 
-        public void SetCellState(FHPCellState cellState, int x, int y) =>
+        public void SetCellState(FhpCellState cellState, int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].State = cellState;
 
-        public ColorValues GetColorValues(FHPCellState cellState) =>
-            FHPCell.GetColorValues(cellState);
+        public ColorValues GetColorValues(FhpCellState cellState) =>
+            FhpCell.GetColorValues(cellState);
 
-        public void SetColorValues(ColorValues colorValues, FHPCellState cellState) =>
-            FHPCell.SetColorValues(colorValues, cellState);
+        public void SetColorValues(ColorValues colorValues, FhpCellState cellState) =>
+            FhpCell.SetColorValues(colorValues, cellState);
 
         public ColorValues[] GetCellsColors() =>
-            FHPCell.GetCellsColors();
+            FhpCell.GetCellsColors();
 
-        public FHPParticleCellState GetParticleCellState(int x, int y) =>
+        public FhpParticleCellState GetParticleCellState(int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].ParticleState;
 
-        public void SetParticleCellState(FHPParticleCellState cellState, int x, int y) =>
+        public void SetParticleCellState(FhpParticleCellState cellState, int x, int y) =>
             cellsGrid[x + borderThickness][y + borderThickness].ParticleState = cellState;
 
         private void HandleCollisions()
@@ -139,7 +139,7 @@
             {
                 for (int y = 0; y < extendedHeight; y++)
                 {
-                    FHPParticleCellState particleInStateXY = cellsGrid[x][y].ParticleState;
+                    FhpParticleCellState particleInStateXY = cellsGrid[x][y].ParticleState;
                     int randomOutStateIndex = Randomizer.Instance.Next(2);
                     cellsGrid[x][y].ParticleState = outStatesPair[randomOutStateIndex][(int)particleInStateXY];
                 }
@@ -168,34 +168,34 @@
                         diagonalLeftIndex = x;
                     }
 
-                    FHPCell cellXY = cellsGrid[x][y];
-                    FHPParticleCellState particleInStateXY = cellXY.ParticleState;
+                    FhpCell cellXY = cellsGrid[x][y];
+                    FhpParticleCellState particleInStateXY = cellXY.ParticleState;
                     
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Wall))
-                        newCellsGrid[x][y].ParticleState |= FHPParticleCellState.Wall;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Rest))
-                        newCellsGrid[x][y].ParticleState |= FHPParticleCellState.Rest;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Northeast))
-                        newCellsGrid[diagonalRightIndex][y - 1].ParticleState |= FHPParticleCellState.Northeast;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.East))
-                        newCellsGrid[x + 1][y].ParticleState |= FHPParticleCellState.East;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Southeast))
-                        newCellsGrid[diagonalRightIndex][y + 1].ParticleState |= FHPParticleCellState.Southeast;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Southwest))
-                        newCellsGrid[diagonalLeftIndex][y + 1].ParticleState |= FHPParticleCellState.Southwest;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.West))
-                        newCellsGrid[x - 1][y].ParticleState |= FHPParticleCellState.West;
-                    if (particleInStateXY.HasFlag(FHPParticleCellState.Northwest))
-                        newCellsGrid[diagonalLeftIndex][y - 1].ParticleState |= FHPParticleCellState.Northwest;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Wall))
+                        newCellsGrid[x][y].ParticleState |= FhpParticleCellState.Wall;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Rest))
+                        newCellsGrid[x][y].ParticleState |= FhpParticleCellState.Rest;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Northeast))
+                        newCellsGrid[diagonalRightIndex][y - 1].ParticleState |= FhpParticleCellState.Northeast;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.East))
+                        newCellsGrid[x + 1][y].ParticleState |= FhpParticleCellState.East;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Southeast))
+                        newCellsGrid[diagonalRightIndex][y + 1].ParticleState |= FhpParticleCellState.Southeast;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Southwest))
+                        newCellsGrid[diagonalLeftIndex][y + 1].ParticleState |= FhpParticleCellState.Southwest;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.West))
+                        newCellsGrid[x - 1][y].ParticleState |= FhpParticleCellState.West;
+                    if (particleInStateXY.HasFlag(FhpParticleCellState.Northwest))
+                        newCellsGrid[diagonalLeftIndex][y - 1].ParticleState |= FhpParticleCellState.Northwest;
 
-                    cellXY.ParticleState = FHPParticleCellState.None;
+                    cellXY.ParticleState = FhpParticleCellState.None;
                 }
             }
         }
 
         private void SwapCellsGrid()
         {
-            FHPCell[][] tempCellsGrid = cellsGrid;
+            FhpCell[][] tempCellsGrid = cellsGrid;
             cellsGrid = newCellsGrid;
             newCellsGrid = tempCellsGrid;
         }

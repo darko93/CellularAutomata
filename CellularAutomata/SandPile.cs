@@ -117,73 +117,73 @@ namespace CellularAutomata
 
         private void UpdateBlock(int x, int y)
         {
-            SandPileCell cellXY = cellsGrid[x][y];
-            SandPileCell cellX1Y = cellsGrid[x + 1][y];
-            SandPileCell cellXY1 = cellsGrid[x][y + 1];
-            SandPileCell cellX1Y1 = cellsGrid[x + 1][y + 1];
+            SandPileCell upperLeft = cellsGrid[x][y];
+            SandPileCell upperRight = cellsGrid[x + 1][y];
+            SandPileCell lowerLeft = cellsGrid[x][y + 1];
+            SandPileCell lowerRight = cellsGrid[x + 1][y + 1];
 
             bool ruleApplied = false;
 
-            if (cellXY.State == SandPileCellState.Empty && cellX1Y.State == SandPileCellState.SandGrain)
+            if (upperLeft.State == SandPileCellState.Empty && upperRight.State == SandPileCellState.SandGrain)
             {
-                if (cellXY1.State == SandPileCellState.Empty)
+                if (lowerLeft.State == SandPileCellState.Empty)
                 {
-                    if (cellX1Y1.State == SandPileCellState.Empty)
+                    if (lowerRight.State == SandPileCellState.Empty)
                     {
-                        cellX1Y.FallTo(cellX1Y1); // 1
+                        upperRight.FallTo(lowerRight); // 1
                         ruleApplied = true;
                     }
-                    else if (cellX1Y1.State == SandPileCellState.SandGrain)
+                    else if (lowerRight.State == SandPileCellState.SandGrain)
                     {
-                        cellX1Y.FallTo(cellXY1); // 2
+                        upperRight.FallTo(lowerLeft); // 2
                         ruleApplied = true;
                     }
                 }
-                else if (cellXY1.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty)
+                else if (lowerLeft.State == SandPileCellState.SandGrain && lowerRight.State == SandPileCellState.Empty)
                 {
-                    cellX1Y.FallTo(cellX1Y1); // 3
+                    upperRight.FallTo(lowerRight); // 3
                     ruleApplied = true;
                 }
             }
-            else if (cellXY.State == SandPileCellState.SandGrain)
+            else if (upperLeft.State == SandPileCellState.SandGrain)
             {
-                if (cellX1Y.State == SandPileCellState.Empty)
+                if (upperRight.State == SandPileCellState.Empty)
                 {
-                    if (cellXY1.State == SandPileCellState.Empty)
+                    if (lowerLeft.State == SandPileCellState.Empty)
                     {
-                        cellXY.FallTo(cellXY1); // 4, 5
+                        upperLeft.FallTo(lowerLeft); // 4, 5
                         ruleApplied = true;
                     }
-                    else if (cellXY1.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty)
+                    else if (lowerLeft.State == SandPileCellState.SandGrain && lowerRight.State == SandPileCellState.Empty)
                     {
-                        cellXY.FallTo(cellX1Y1); // 6
+                        upperLeft.FallTo(lowerRight); // 6
                         ruleApplied = true;
                     }
                 }
-                if (cellX1Y.State == SandPileCellState.SandGrain)
+                if (upperRight.State == SandPileCellState.SandGrain)
                 {
-                    if (cellXY1.State == SandPileCellState.Empty)
+                    if (lowerLeft.State == SandPileCellState.Empty)
                     {
-                        if (cellX1Y1.State == SandPileCellState.Empty)
+                        if (lowerRight.State == SandPileCellState.Empty)
                         {
                             if (!Randomizer.Instance.BernoulliTrialSuccess(NeighboringRemainAtRestProbability))
                             {
-                                cellXY.FallTo(cellXY1); // 7
-                                cellX1Y.FallTo(cellX1Y1);
+                                upperLeft.FallTo(lowerLeft); // 7
+                                upperRight.FallTo(lowerRight);
                                 ruleApplied = true;
                             }
                         }
-                        else if (cellX1Y1.State == SandPileCellState.SandGrain)
+                        else if (lowerRight.State == SandPileCellState.SandGrain)
                         {
-                            cellXY.FallTo(cellXY1); // 8
+                            upperLeft.FallTo(lowerLeft); // 8
                             ruleApplied = true;
                         }
                     }
-                    else if (cellXY1.State == SandPileCellState.SandGrain)
+                    else if (lowerLeft.State == SandPileCellState.SandGrain)
                     {
-                        if (cellX1Y1.State == SandPileCellState.Empty)
+                        if (lowerRight.State == SandPileCellState.Empty)
                         {
-                            cellX1Y.FallTo(cellX1Y1); // 9
+                            upperRight.FallTo(lowerRight); // 9
                             ruleApplied = true;
                         }
                     }
@@ -192,12 +192,12 @@ namespace CellularAutomata
 
             if (!ruleApplied)
             {
-                if (cellX1Y.State == SandPileCellState.SandGrain && cellX1Y1.State == SandPileCellState.Empty
-                    && (cellXY.State == SandPileCellState.Wall || cellXY1.State == SandPileCellState.Wall))
-                    cellX1Y.FallTo(cellX1Y1); // 10
-                if (cellXY.State == SandPileCellState.SandGrain && cellXY1.State == SandPileCellState.Empty
-                    && (cellX1Y.State == SandPileCellState.Wall || cellX1Y1.State == SandPileCellState.Wall))
-                    cellXY.FallTo(cellXY1); // 11
+                if (upperRight.State == SandPileCellState.SandGrain && lowerRight.State == SandPileCellState.Empty
+                    && (upperLeft.State == SandPileCellState.Wall || lowerLeft.State == SandPileCellState.Wall))
+                    upperRight.FallTo(lowerRight); // 10
+                if (upperLeft.State == SandPileCellState.SandGrain && lowerLeft.State == SandPileCellState.Empty
+                    && (upperRight.State == SandPileCellState.Wall || lowerRight.State == SandPileCellState.Wall))
+                    upperLeft.FallTo(lowerLeft); // 11
             }
         }
 

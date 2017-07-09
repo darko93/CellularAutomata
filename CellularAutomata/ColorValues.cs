@@ -12,7 +12,7 @@
             Blue = blue;
         }
 
-        public int ToInt()
+        public int ToArgb()
         {
             int colorValue = 0;
             colorValue |= 255 << 24; // Alpha

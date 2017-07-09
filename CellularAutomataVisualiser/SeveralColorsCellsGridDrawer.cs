@@ -65,7 +65,7 @@ namespace CellularAutomataVisualiser
 
                 if (specificColorRectangles.Count > 0)
                 {
-                    Color cellsColor = Color.FromArgb(cellColorValues.ToInt());
+                    Color cellsColor = Color.FromArgb(cellColorValues.ToArgb());
                     brush.Color = cellsColor;
                     graphics.FillRectangles(brush, specificColorRectangles.ToArray());
                 }

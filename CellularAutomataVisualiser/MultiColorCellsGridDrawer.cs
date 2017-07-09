@@ -40,7 +40,7 @@ namespace CellularAutomataVisualiser
                 for (int cellY = 0; cellY < cellularAutomaton.Height; cellY++)
                 {
                     ColorValues cellColorValues = cellularAutomaton.GetColorValues(cellX, cellY);
-                    Color cellColor = Color.FromArgb(cellColorValues.ToInt());
+                    Color cellColor = Color.FromArgb(cellColorValues.ToArgb());
                     brush.Color = cellColor;
                     Rectangle cellRectangle = new Rectangle(cellX * cellWidth, cellY * cellHeight, cellWidth, cellHeight);
                     graphics.FillRectangle(brush, cellRectangle);

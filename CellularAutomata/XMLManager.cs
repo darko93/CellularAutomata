@@ -6,23 +6,23 @@ using System.Reflection;
 
 namespace CellularAutomata
 {
-    class XMLManager
+    class XmlManager
     {
-        public static XMLManager Instance { get; } = new XMLManager();
+        public static XmlManager Instance { get; } = new XmlManager();
 
-        private XMLManager() { }
+        private XmlManager() { }
 
-        public FHPCollision[] GetFHPCollisions()
+        public FhpCollision[] GetFhpCollisions()
         {
-            Assembly assembly = typeof(FHP).GetTypeInfo().Assembly;
-            FHPCollision[] fhpCollisions;
-            using (Stream fhpCollisionsStream = assembly.GetManifestResourceStream("CellularAutomata.FHPCollisions.xml"))
+            Assembly assembly = typeof(Fhp).GetTypeInfo().Assembly;
+            FhpCollision[] fhpCollisions;
+            using (Stream fhpCollisionsStream = assembly.GetManifestResourceStream("CellularAutomata.FhpCollisions.xml"))
             {
                 XElement fhpCollisionsXElement = XElement.Load(fhpCollisionsStream);
                 fhpCollisions =
-                    fhpCollisionsXElement.Elements("FHPCollision")
+                    fhpCollisionsXElement.Elements("FhpCollision")
                     .Select(fhpCollEl =>
-                        new FHPCollision
+                        new FhpCollision
                         (
                             Convert.ToByte(fhpCollEl.Attribute("inState").Value),
                             Convert.ToByte(fhpCollEl.Attribute("outState1").Value),

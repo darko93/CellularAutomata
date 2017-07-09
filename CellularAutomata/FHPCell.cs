@@ -1,22 +1,22 @@
 ﻿namespace CellularAutomata
 {
-    class FHPCell : ICell<FHPCellState>
+    class FhpCell : ICell<FhpCellState>
     {
         private static ColorValues airColor = ColorValues.Air;
         private static ColorValues particleColor = ColorValues.Particle;
         private static ColorValues wallColor = ColorValues.Wall;
 
-        public FHPParticleCellState ParticleState { get; set; }
+        public FhpParticleCellState ParticleState { get; set; }
 
-        public FHPCellState State
+        public FhpCellState State
         {
             get
             {
-                if (ParticleState == FHPParticleCellState.None)
-                    return FHPCellState.Empty;
-                if (ParticleState.HasFlag(FHPParticleCellState.Wall))
-                    return FHPCellState.Wall;
-                return FHPCellState.Particle;
+                if (ParticleState == FhpParticleCellState.None)
+                    return FhpCellState.Empty;
+                if (ParticleState.HasFlag(FhpParticleCellState.Wall))
+                    return FhpCellState.Wall;
+                return FhpCellState.Particle;
             }
             set
             {
@@ -24,47 +24,47 @@
             }
         }
 
-        public FHPCell(FHPParticleCellState particleState)
+        public FhpCell(FhpParticleCellState particleState)
         {
             ParticleState = particleState;
         }
 
-        public FHPCell(FHPCellState cellState)
+        public FhpCell(FhpCellState cellState)
         {
             SetState(cellState);
         }
 
-        public void SetState(FHPCellState state)
+        public void SetState(FhpCellState state)
         {
-            if (state == FHPCellState.Empty)
-                ParticleState = FHPParticleCellState.None;
-            else if (state == FHPCellState.Wall)
-                ParticleState = FHPParticleCellState.Wall;
-            else // if (state == FHPCellState.Particle)
+            if (state == FhpCellState.Empty)
+                ParticleState = FhpParticleCellState.None;
+            else if (state == FhpCellState.Wall)
+                ParticleState = FhpParticleCellState.Wall;
+            else // if (state == FhpCellState.Particle)
             {
                 int randomDirectionNumber = Randomizer.Instance.Next(7);
                 switch (randomDirectionNumber)
                 {
                     case 0:
-                        ParticleState = FHPParticleCellState.Northeast;
+                        ParticleState = FhpParticleCellState.Northeast;
                         break;
                     case 1:
-                        ParticleState = FHPParticleCellState.East;
+                        ParticleState = FhpParticleCellState.East;
                         break;
                     case 2:
-                        ParticleState = FHPParticleCellState.Southeast;
+                        ParticleState = FhpParticleCellState.Southeast;
                         break;
                     case 3:
-                        ParticleState = FHPParticleCellState.Southwest;
+                        ParticleState = FhpParticleCellState.Southwest;
                         break;
                     case 4:
-                        ParticleState = FHPParticleCellState.West;
+                        ParticleState = FhpParticleCellState.West;
                         break;
                     case 5:
-                        ParticleState = FHPParticleCellState.Northwest;
+                        ParticleState = FhpParticleCellState.Northwest;
                         break;
                     case 6:
-                        ParticleState = FHPParticleCellState.Rest;
+                        ParticleState = FhpParticleCellState.Rest;
                         break;
                 }
             }
@@ -72,39 +72,39 @@
 
         public ColorValues GetColorValues()
         {
-            if (ParticleState == FHPParticleCellState.None)
+            if (ParticleState == FhpParticleCellState.None)
                 return airColor;
-            if (ParticleState.HasFlag(FHPParticleCellState.Wall))
+            if (ParticleState.HasFlag(FhpParticleCellState.Wall))
                 return wallColor;
             return particleColor;
         }
         
-        public static ColorValues GetColorValues(FHPCellState cellState)
+        public static ColorValues GetColorValues(FhpCellState cellState)
         {
             switch (cellState)
             {
-                case FHPCellState.Empty:
+                case FhpCellState.Empty:
                     return airColor;
-                case FHPCellState.Particle:
+                case FhpCellState.Particle:
                     return particleColor;
-                case FHPCellState.Wall:
+                case FhpCellState.Wall:
                     return wallColor;
                 default:
                     return null;
             }
         }
 
-        public static void SetColorValues(ColorValues colorValues, FHPCellState cellState)
+        public static void SetColorValues(ColorValues colorValues, FhpCellState cellState)
         {
             switch (cellState)
             {
-                case FHPCellState.Empty:
+                case FhpCellState.Empty:
                     airColor = colorValues;
                     break;
-                case FHPCellState.Particle:
+                case FhpCellState.Particle:
                     particleColor = colorValues;
                     break;
-                case FHPCellState.Wall:
+                case FhpCellState.Wall:
                     particleColor = colorValues;
                     break;
             }

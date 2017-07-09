@@ -46,7 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomColorsCellsGridDrawer.cs" />
+    <Compile Include="CellsGridDrawer.cs" />
+    <Compile Include="CellularAutomataForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CellularAutomataForm2.Designer.cs">
+      <DependentUpon>CellularAutomataForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="MultiColorCellsGridDrawer.cs" />
     <Compile Include="CellularAutomataForm.cs">
       <SubType>Form</SubType>
@@ -56,10 +62,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SandPileCellsGridDrawer.cs" />
     <Compile Include="SeveralColorsCellsGridDrawer.cs" />
     <EmbeddedResource Include="CellularAutomataForm.resx">
       <DependentUpon>CellularAutomataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CellularAutomataForm2.resx">
+      <DependentUpon>CellularAutomataForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
