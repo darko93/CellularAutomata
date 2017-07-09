@@ -39,7 +39,7 @@
             }
 
             // Setting non-boundary collisions.
-            Fhp3Collision[] fhp3Collisions = XML2Manager.Instance.GetFhp3Collisions();
+            Fhp3Collision[] fhp3Collisions = XmlManager.Instance.GetFhp3Collisions();
             foreach (Fhp3Collision fhp3Collision in fhp3Collisions)
             {
                 outState1[fhp3Collision.InState] = (Fhp3ParticleCellState)fhp3Collision.OutState1;

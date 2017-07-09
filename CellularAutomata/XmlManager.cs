@@ -6,11 +6,11 @@ using System.Reflection;
 
 namespace CellularAutomata
 {
-    class XML2Manager
+    class XmlManager
     {
-        public static XML2Manager Instance { get; } = new XML2Manager();
+        public static XmlManager Instance { get; } = new XmlManager();
 
-        private XML2Manager() { }
+        private XmlManager() { }
 
         public Fhp3Collision[] GetFhp3Collisions()
         {
