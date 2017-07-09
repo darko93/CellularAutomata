@@ -35,18 +35,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <EmbeddedResource Include="FhpCollisions.xml" />
+    <EmbeddedResource Include="Fhp3Collisions.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorsMode.cs" />
     <Compile Include="ColorValues.cs" />
     <Compile Include="ColorValuesComparer.cs" />
     <Compile Include="CellularAutomatonExtensionMethods.cs" />
-    <Compile Include="Fhp.cs" />
-    <Compile Include="FhpCell.cs" />
-    <Compile Include="FhpCellState.cs" />
-    <Compile Include="FhpCollision.cs" />
-    <Compile Include="FhpParticleCellState.cs" />
+    <Compile Include="Fhp3.cs" />
+    <Compile Include="Fhp3Cell.cs" />
+    <Compile Include="Fhp3CellState.cs" />
+    <Compile Include="Fhp3Collision.cs" />
+    <Compile Include="Fhp3ParticleCellState.cs" />
     <Compile Include="ForestFire.cs" />
     <Compile Include="ForestFireCell.cs" />
     <Compile Include="ForestFireCellState.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="SandPile.cs" />
     <Compile Include="SandPileCell.cs" />
     <Compile Include="SandPileCellState.cs" />
-    <Compile Include="XmlManager.cs" />
+    <Compile Include="XML2Manager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

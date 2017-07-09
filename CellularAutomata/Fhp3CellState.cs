@@ -1,6 +1,6 @@
 ﻿namespace CellularAutomata
 {
-    public enum FhpCellState
+    public enum Fhp3CellState
     {
         Empty,
         Particle,
